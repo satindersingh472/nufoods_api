@@ -48,8 +48,11 @@ CREATE TABLE `menu` (
   `price` float NOT NULL,
   `description` varchar(300) COLLATE utf8mb4_bin NOT NULL,
   `image_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `menu_UN` (`name`)
+  UNIQUE KEY `menu_UN` (`name`),
+  KEY `menu_FK` (`restaurant_id`),
+  CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,4 +112,4 @@ CREATE TABLE `restaurant` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-16 16:01:57
+-- Dump completed on 2022-10-16 16:23:45
