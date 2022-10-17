@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.8.3-MariaDB, for osx10.17 (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.7-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: foodie_api
 -- ------------------------------------------------------
--- Server version	10.8.3-MariaDB
+-- Server version	10.6.7-MariaDB-2ubuntu1.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,6 +32,23 @@ CREATE TABLE `client` (
   `image_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_UN` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `client_session`
+--
+
+DROP TABLE IF EXISTS `client_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `client_session` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(300) COLLATE utf8mb4_bin NOT NULL,
+  `password` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `token` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `client_session_UN` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,16 +86,32 @@ CREATE TABLE `order` (
   `is_confirmed` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `price` float NOT NULL,
-  `menu_id` int(10) unsigned NOT NULL,
   `restaurant_id` int(10) unsigned NOT NULL,
   `client_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_FK` (`menu_id`),
   KEY `order_FK_1` (`restaurant_id`),
   KEY `order_FK_2` (`client_id`),
-  CONSTRAINT `order_FK` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_FK_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_FK_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order_menu_item`
+--
+
+DROP TABLE IF EXISTS `order_menu_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_menu_item` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) unsigned NOT NULL,
+  `menu_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_menu_item_FK` (`menu_id`),
+  KEY `order_menu_item_FK_1` (`order_id`),
+  CONSTRAINT `order_menu_item_FK` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `order_menu_item_FK_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,6 +139,23 @@ CREATE TABLE `restaurant` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `restaurant_session`
+--
+
+DROP TABLE IF EXISTS `restaurant_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `restaurant_session` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(300) COLLATE utf8mb4_bin NOT NULL,
+  `password` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
+  `token` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `restaurant_session_UN` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping routines for database 'foodie_api'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -118,4 +168,4 @@ CREATE TABLE `restaurant` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-16 23:18:38
+-- Dump completed on 2022-10-17 17:09:46
