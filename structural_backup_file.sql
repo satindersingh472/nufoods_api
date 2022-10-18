@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.6.7-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.8.3-MariaDB, for osx10.17 (x86_64)
 --
 -- Host: localhost    Database: foodie_api
 -- ------------------------------------------------------
--- Server version	10.6.7-MariaDB-2ubuntu1.1
+-- Server version	10.8.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -44,9 +44,8 @@ DROP TABLE IF EXISTS `client_session`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `client_session` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(300) COLLATE utf8mb4_bin NOT NULL,
-  `password` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `token` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_session_UN` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -67,7 +66,6 @@ CREATE TABLE `menu` (
   `image_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
   `restaurant_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `menu_UN` (`name`),
   KEY `menu_FK` (`restaurant_id`),
   CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -84,10 +82,9 @@ CREATE TABLE `order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `is_complete` tinyint(1) NOT NULL DEFAULT 0,
   `is_confirmed` tinyint(1) NOT NULL DEFAULT 0,
-  `name` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `price` float NOT NULL,
   `restaurant_id` int(10) unsigned NOT NULL,
   `client_id` int(10) unsigned NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `order_FK_1` (`restaurant_id`),
   KEY `order_FK_2` (`client_id`),
@@ -147,9 +144,8 @@ DROP TABLE IF EXISTS `restaurant_session`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `restaurant_session` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(300) COLLATE utf8mb4_bin NOT NULL,
-  `password` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
   `token` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `restaurant_session_UN` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -168,4 +164,4 @@ CREATE TABLE `restaurant_session` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-17 17:09:46
+-- Dump completed on 2022-10-17 21:17:43
