@@ -3,14 +3,18 @@ from flask import Flask
 # import dbcreds to check for production mode
 import dbcreds
 # import client.py for client endpoints
-from clients import all_clients
+from clients import specific_client,add_client
 
 app = Flask(__name__)
 
 # get request for all clients
 @app.get('/api/client')
-def use_all_clients():
-    return all_clients()
+def use_specific_client():
+    return specific_client()
+
+@app.post('/api/client')
+def use_add_client():
+    return add_client()
 
 
 if(dbcreds.production_mode == True):
