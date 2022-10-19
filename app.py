@@ -1,11 +1,17 @@
-
-from dbhelpers import conn_exe_close
-from apihelpers import get_display_results, verify_endpoints_info
-from flask import Flask, request, make_response
-import json
+# import flask for api
+from flask import Flask
+# import dbcreds to check for production mode
 import dbcreds
+# import client.py for client endpoints
+from clients import all_clients
 
 app = Flask(__name__)
+
+# get request for all clients
+@app.get('/api/client')
+def use_all_clients():
+    return all_clients()
+
 
 if(dbcreds.production_mode == True):
     print('Running in PRODUCTION MODE')
