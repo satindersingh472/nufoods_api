@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 if(dbcreds.production_mode == True):
     print('Running in PRODUCTION MODE')
-    app.run(debug=True)
+    import bjoern #type: ignore
+    bjoern.run(app,'0.0.0.0',5001)
 else:
     from flask_cors import CORS
     CORS(app)
