@@ -26,5 +26,25 @@ def add_client():
     results_json = make_response(json.dumps(results,default=str),200)
     return results_json
 
-def client_patch():
-    invalid = 
+def token_valid():
+    invalid = verify_endpoints_info(request.json,['token'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = get_display_results('call client_token_id(?)',[request.json.get('token')])
+    return results[0][0]
+
+
+def client_delete():
+    id = token_valid()
+    invalid = verify_endpoints_info(request.json,['password'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = get_display_results('call client_delete(?,?)',
+    [id,request.json.get('password')])
+    if(results[0][0] == 1):
+        results_json = make_response(json.dumps('Client deleted successfully',default=str),200)
+        return results_json
+    elif(results[0][0] == 0):
+        return make_response(json.dumps('No client deleted',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)

@@ -3,7 +3,7 @@ from flask import Flask
 # import dbcreds to check for production mode
 import dbcreds
 # import client.py for client endpoints
-from clients import specific_client,add_client
+from clients import specific_client,add_client,client_delete
 from restaurants import all_restaurants, specific_restaurant
 from menu import all_menu
 
@@ -22,6 +22,10 @@ def use_specific_client():
 @app.post('/api/client')
 def use_add_client():
     return add_client()
+
+@app.delete('/api/client')
+def use_client_delete():
+    return client_delete()
 
 
 # ---------------------------------------------------------------------------------------------------------------------
