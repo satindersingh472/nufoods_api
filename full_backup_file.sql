@@ -34,7 +34,7 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_UN_email` (`email`),
   CONSTRAINT `client_CHECK_email` CHECK (`email` like '%@%' and `email` like '%.%')
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (1,'satinder123','satinder','singh','s@email.com','2022-10-18','https://images.unsplash.com/photo-1661961112134-fbce0fdf3d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(3,'username_one','user','name','u@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(4,'username_one','user','name','e@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(5,'username_one','user','name','k@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(6,'tom123','first','last','t@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(10,'jam','jammmmmy','last','jammy@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(12,'tam','tammmmmy','last','tamy@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(14,'tam','tammmmmy','last','y@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(17,'tam','tammmmmy','last','bbbb@email.com','2022-10-19','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456');
+INSERT INTO `client` VALUES (1,'satinder123','satinder','singh','s@email.com','2022-10-18','https://images.unsplash.com/photo-1661961112134-fbce0fdf3d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(41,'tam','tammmmmy','last','xssxasxasxsb@email.com','2022-10-20','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(42,'sampleuser','user_Three_two_one','last_one','us@email.com','2022-10-20','hjdksldakcdahbkldancakdhncdac','123456');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,6 +72,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
+INSERT INTO `client_session` VALUES (15,'8ae2ed6d834d49188fd76fafe0a21471',41,'2022-10-20 23:36:34'),(16,'fa8d50b0c80e4d5eac22da5c47aa56bc',42,'2022-10-20 23:41:07');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,13 +239,18 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_client`(un_input varchar(200),fn_input varchar(200), ln_input varchar(200), e_input varchar(300),
-iu_input mediumtext, p_input varchar(200))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_client`(username_input varchar(200),first_name_input varchar(200), 
+last_name_input varchar(200), email_input varchar(300),image_url_input mediumtext, password_input varchar(200),token_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
 	insert into client(username,first_name,last_name,email,image_url,password)
-	values(un_input,fn_input,ln_input,e_input,iu_input,p_input);
-	select LAST_INSERT_ID(); 
+	values(username_input,first_name_input,last_name_input,email_input,image_url_input,password_input);
+
+	insert into client_session (client_id,token)
+	values( last_insert_id(), token_input);
+	
+	SELECT cs.client_id, convert(cs.token using utf8) 
+	from client_session cs where token = token_input;
 	commit;
 END ;;
 DELIMITER ;
@@ -319,6 +325,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_patch` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch`(username_input varchar(200),first_name_input varchar(200),
+last_name_input varchar(200),email_input varchar(300),image_url_input mediumtext, password_input varchar(200),token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	update client c inner join client_session cs on c.id = cs.client_id 
+	set username = username_input or username_input  is NULL , first_name= first_name_input, last_name = last_name_input,
+	email = email_input, image_url = image_url_input, password = password_input
+	where cs.token = token_input;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `specific_client` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -376,4 +407,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-19 12:01:58
+-- Dump completed on 2022-10-21  0:38:24
