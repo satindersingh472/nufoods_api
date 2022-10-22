@@ -1,3 +1,4 @@
+from ast import Str
 import json
 from flask import request,make_response
 import json
@@ -15,8 +16,10 @@ def specific_client():
         # is sent then it will go further and call the function to add client wit given all 
         # the data inside params
     results = get_display_results('call specific_client(?)',[request.args.get('client_id')])
-    if(type(results) == list):
+    if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('0 results matched your input',default=Str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:

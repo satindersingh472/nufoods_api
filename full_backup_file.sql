@@ -34,8 +34,8 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_UN_email` (`email`),
   CONSTRAINT `client_CHECK_email` CHECK (`email` like '%@%' and `email` like '%.%'),
-  CONSTRAINT `client_CHECK` CHECK (octet_length(`password`) > 5)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  CONSTRAINT `client_password_length` CHECK (octet_length(`password`) > 5)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,8 @@ LOCK TABLES `client` WRITE;
 INSERT INTO `client` VALUES
 (1,'satinder123','satinder','singh','s@email.com','2022-10-18','https://images.unsplash.com/photo-1661961112134-fbce0fdf3d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),
 (43,'username_one','sam','last','sam@email.com','2022-10-21','image_url','eoeoeoeoeooeoeoeoriirfnfn4342'),
-(49,'username_m','m','last','m@email.com','2022-10-21','image_url','123456');
+(49,'username_m','m','last','m@email.com','2022-10-21','image_url','123456'),
+(50,'random_user','first_name','last_name','first_email@email.com','2022-10-22','','123456');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +68,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +79,8 @@ LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
 INSERT INTO `client_session` VALUES
 (17,'123456',43,'2022-10-21 14:40:31'),
-(21,'token_123456',49,'2022-10-21 20:04:08');
+(21,'token_123456',49,'2022-10-21 20:04:08'),
+(22,'a0c8a6bfceb847308d7052b80720a161',50,'2022-10-22 00:02:46');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -462,4 +464,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-21 20:05:42
+-- Dump completed on 2022-10-22  0:03:53
