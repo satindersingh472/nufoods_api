@@ -4,7 +4,7 @@ from flask import Flask
 import dbcreds
 # import client.py for client endpoints
 from clients import specific_client,add_client,client_delete
-from restaurants import all_restaurants, specific_restaurant
+from restaurants import all_restaurants, specific_restaurant,restaurant_post
 from menu import all_menu
 
 app = Flask(__name__)
@@ -41,10 +41,16 @@ def use_all_restaurants():
 def use_specific_restaurant():
     return specific_restaurant()
 
+@app.post('/api/restaurant')
+def use_restaurant_post():
+    return restaurant_post()
+
 # -----------------------------------------------------------------------------------------------------------------------
 @app.get('/api/menu')
 def use_all_menu():
     return all_menu()
+
+# ___________the end_________________
 
 if(dbcreds.production_mode == True):
     print('Running in PRODUCTION MODE')

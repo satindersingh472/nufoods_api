@@ -38,6 +38,38 @@ Returns **the client_id argument is required**, if the **`client_id`** is not se
 
 }
 ```
+<br>
+
+### `POST`
+
+Creates a new client and returns back the id and token of client added.
+
+**Required Data**
+```
+{
+    email: (string),
+    first_name: (string),
+    last_name: (string),
+    image_url: (string),
+    username: (string),
+    password: (string)
+}
+```
+**Data Returned**
+```
+{
+    client_id: (number),
+    token: (string)
+}
+```
+<br>
+
+### `DELETE`
+
+Delets the existing client with token sent as header and password sent as required data
+
+
+
 ## `Restaurants`
 ## /api/restaurants
 HTTP methods available: **GET**
