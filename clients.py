@@ -27,21 +27,21 @@ def add_client():
     return results_json
 
 def token_valid():
-    invalid = verify_endpoints_info(request.json,['token'])
+    invalid = verify_endpoints_info(request.headers,['token'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
-    results = get_display_results('call client_token_id(?)',[request.json.get('token')])
+    results = get_display_results('call client_token_id(?)',[request.headers.get('token')])
     return results
 
 
 def client_delete():
     id = token_valid()
-    if(type(id) == list and id[0][0] == int and id[0][1] == 1):
+    if(type(id) == list and type(id[0][0]) == int and id[0][1] == 1):
         invalid = verify_endpoints_info(request.json,['password'])
         if(invalid != None):
             return make_response(json.dumps(invalid,default=str),400)
         results = get_display_results('call client_delete(?,?)',
-        [id,request.json.get('password')])
+        [id[0][0],request.json.get('password')])
         if(results[0][0] == 1):
             results_json = make_response(json.dumps('Client deleted successfully',default=str),200)
             return results_json
