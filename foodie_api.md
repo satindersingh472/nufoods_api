@@ -32,8 +32,18 @@ returns the client id and token
     token: (string)
 }
 ```
+### `DELETE`
 
-
+Helps to logout the user from current session with valid token.<br>
+ **Required Headers**
+ ```
+ {
+    token: (string)
+ }
+```
+**Data Returned**
+**On Success**: "successfully logged out" <br>
+**On failure**: "logout not successfull or already logged out" or **any other error**. <br>
 
 <br>
 <br>
@@ -45,8 +55,8 @@ HTTP methods available : **GET, POST, PATCH, DELETE**
 
 ### `GET`
 
-Returns information about a single client with given **`client_id`**.<br>
-Returns **the client_id argument is required**, if the **`client_id`** is not sent. 
+Returns information about a single client with given client_id.<br>
+Returns **the client_id argument is required**, if the client_id is not sent. 
 
 **Required Params:** 
 ```

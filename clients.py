@@ -18,11 +18,29 @@ def client_login():
     # the procedure will return the results with id and token and the tuple must be of length 1
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results,default=str),200)
-    elif(type(results) == list and len(results) == 0 or len(results) != 1):
+    elif(type(results) == list and len(results) != 1):
         return make_response(json.dumps('username or password is not valid',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
 
+
+# will logout the client if the valid token is given through headers
+def client_logout():
+    # if header is missing will show an error
+    invalid_headers = verify_endpoints_info(request.headers,['token'])
+    if(invalid_headers != None):
+        return make_response(json.dumps(invalid_headers,default=str),400)
+    # will send the request to delete the token from the database
+    results = conn_exe_close('call client_logout(?)',[request.headers.get('token')])
+    if(type(results) == list and results[0][0] == 1):
+        # if token deleted from database then the row count will be sent back
+        # if result is a list and result[0][0] == 1 then it has deleted the token 
+        return make_response(json.dumps('successfully logged out',default=str),200)
+        # if token is not deleted it will send 0 length of results which
+    elif(type(results) == list and results[0][0] == 0):
+        return make_response(json.dumps('logout not successfull or already logged out',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 
 

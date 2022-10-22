@@ -65,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (26,'4346f081a06e4e2dafa1d2816eb5656e',58,'2022-10-22 13:51:13'),(27,'839b421e47d34962881b2cdb65fcf017',59,'2022-10-22 13:51:52'),(30,'token_123456',62,'2022-10-22 15:37:34'),(31,'token_nuhaar',63,'2022-10-22 15:40:18'),(32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(34,'token_nuhaar_two',63,'2022-10-22 15:41:27'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(41,'cf7d989811934ff7aa41b804ec1d2065',63,'2022-10-22 16:01:10'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17');
+INSERT INTO `client_session` VALUES (26,'4346f081a06e4e2dafa1d2816eb5656e',58,'2022-10-22 13:51:13'),(27,'839b421e47d34962881b2cdb65fcf017',59,'2022-10-22 13:51:52'),(30,'token_123456',62,'2022-10-22 15:37:34'),(32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,6 +380,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_logout` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_logout`(token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	delete from client_session where token = token_input;
+	select row_count();
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `client_patch` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -517,4 +539,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-22 16:13:40
+-- Dump completed on 2022-10-22 17:19:55

@@ -3,7 +3,7 @@ from flask import Flask
 # import dbcreds to check for production mode
 import dbcreds
 # import client.py for client endpoints
-from clients import client_login,specific_client,add_client,client_delete
+from clients import client_login,client_logout,specific_client,add_client,client_delete
 from restaurants import all_restaurants, specific_restaurant,restaurant_post
 from menu import all_menu
 
@@ -14,6 +14,11 @@ app = Flask(__name__)
 def use_client_login():
     return client_login()
 
+
+# this is for the client login delete method
+@app.delete('/api/client_login')
+def use_client_logout():
+    return client_logout()
 # ------------------------------------------------------------------------------------------------------------------
 # client section starts from here
 # get request for all clients will get details about specific client with id
