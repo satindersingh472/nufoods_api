@@ -66,9 +66,28 @@ Creates a new client and returns back the id and token of client added.
 
 ### `DELETE`
 
-Delets the existing client with token sent as header and password sent as required data
+Deletes the existing client with token sent as header and password sent as required data
 
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
 
+**Required Data**
+```
+{
+    password: (string)
+}
+```
+**Data Returned**
+
+**On success** : "client deleted successfully" <br>
+**On failure** : "no client deleted" or **any other error message**
+
+<br>
+<br>
 
 ## `Restaurants`
 ## /api/restaurants
@@ -124,6 +143,37 @@ if `restaurant_id` is not provided then it will show an error
     banner_url: (string)
 }
 ```
+### `POST`
+
+Adds a new restaurant to the database which can be viewed by clients and use the system.<br>
+will show an error if any duplicate entry is present i.e. phone_num or email. will show the error of duplicate entry 
+it will also send back the restaurant id and token for signing in right after the signup
+
+**Required Data**
+```
+{
+    email: (string),
+    name: (string),
+    address: (string),
+    phone_number: (string),
+    bio: (string),
+    city: (string),
+    profile_url: (string),
+    banner_url: (string),
+    password: (string)
+}
+```
+**Data Returned**
+```
+{
+    restaurant_id : (number),
+    token: (string)
+}
+```
+
+<br>
+<br>
+
 ## `Menu`
 ## /api/menu
 HTTP methods available: **GET, POST, PATCH, DELETE**

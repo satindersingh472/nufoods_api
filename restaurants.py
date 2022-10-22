@@ -1,4 +1,5 @@
 import json
+from unittest import makeSuite
 from flask import request,make_response
 from uuid import uuid4
 from dbhelpers import conn_exe_close
@@ -18,6 +19,7 @@ def all_restaurants():
 
 # specific restaurant will return the restaurant with specific id given as a param
 # this function will fulfill the get request
+# GET request
 def specific_restaurant():
     invalid = verify_endpoints_info(request.args,['restaurant_id'])
     if(invalid != None):
@@ -30,21 +32,43 @@ def specific_restaurant():
     else:
         return make_response(json.dumps(results,default=str),500)
 
-    
+# POST Request for client
+# this will work for post restaurant and return the restaurant id and token back
 def restaurant_post():
+    # will verify if every argument is send as data 
     invalid = verify_endpoints_info(request.json,['name','address','phone_num','bio','city','email','profile_url','banner_url','password'])
     if(invalid != None):
+        # if not then return the error
         return make_response(json.dumps(invalid,default=str),400)
+    # if everything is sent will grab a token and salt for authentication purposes
     token = uuid4().hex
     salt = uuid4().hex
+    # will call the procedure to send data to the database
     results = conn_exe_close('call restaurant_post(?,?,?,?,?,?,?,?,?,?,?)',
     [request.json.get('name'),request.json.get('address'),request.json.get('phone_num'),request.json.get('bio'),
     request.json.get('city'),request.json.get('email'),request.json.get('profile_url'),
     request.json.get('banner_url'),request.json.get('password'),token,salt])
     if(type(results) == list):
+        # if list is returned then data is stored and return back the id and token
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == str):
+        # if not then error will show up if there is any duplicate key or constraint failed
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if everything is ok from user side then error will be coming from server side
         return make_response(json.dumps(results,default=str),500)
 
+def restaurant_delete():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json,['password'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call restaurant_delete(?,?)',[request.headers.get('token'),request.json.get('password')])
+    if(type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('restaurant deleted successfully',default=str),200)
+    elif(type(results) == list and results[0][0] == 0):
+        return make_response(json.dumps('no restaurant deleted',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)

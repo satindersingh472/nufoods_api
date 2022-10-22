@@ -67,10 +67,10 @@ def client_delete():
     # if results is in list form and it sends 1 back means number of rows updated is 1
     # then this means that client is deleted successfully
     if( type(results) == list and results[0][0] == 1):
-        return make_response(json.dumps('Client deleted successfully',default=str),200)
+        return make_response(json.dumps('client deleted successfully',default=str),200)
         # if result is an empty list then client is not deleted may be password is wrong
     elif( type(results)== list and results[0][0] == 0):
-        return make_response(json.dumps('No client deleted',default=str),400)
+        return make_response(json.dumps('no client deleted',default=str),400)
     elif(type(results) != list):
         return make_response(json.dumps(results,default=str),400)
     else:
