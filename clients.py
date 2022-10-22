@@ -65,7 +65,7 @@ def client_delete():
             results_json = make_response(json.dumps('Client deleted successfully',default=str),200)
             return results_json
         elif( type(results)== list and results[0][0] == 0):
-            return make_response(json.dumps('No client deleted',default=str),400)
+            return make_response(json.dumps('No client deleted, Check password',default=str),400)
         elif(type(results) != list):
             return make_response(json.dumps(results,default=str),400)
         else:
