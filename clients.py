@@ -34,10 +34,11 @@ def add_client():
         # if sent then it will generate a token and send it along with
         # other data params to the stored procedure
     token = uuid4().hex
+    salt = uuid4().hex
     # token will be sent along with other arguments to run the store procedure
-    results = conn_exe_close('call add_client(?,?,?,?,?,?,?)',
+    results = conn_exe_close('call add_client(?,?,?,?,?,?,?,?)',
     [request.json.get('username'),request.json.get('first_name'),request.json.get('last_name'),request.json.get('email'),
-    request.json.get('image_url'),request.json.get('password'),token])
+    request.json.get('image_url'),request.json.get('password'),token,salt])
     # the result returning back will be a list of one tuple and with client id and token 
     if(type(results) == list):
         return make_response(json.dumps(results,default=str),200)

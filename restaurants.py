@@ -32,13 +32,15 @@ def specific_restaurant():
 
     
 def restaurant_post():
-    invalid = verify_endpoints_info(request.json,['name','address','phone_num','bio','city','email','profile_url','banner_url'])
+    invalid = verify_endpoints_info(request.json,['name','address','phone_num','bio','city','email','profile_url','banner_url','password'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
     token = uuid4().hex
-    results = conn_exe_close('call restaurant_post(?,?,?,?,?,?,?,?,?)',
+    salt = uuid4().hex
+    results = conn_exe_close('call restaurant_post(?,?,?,?,?,?,?,?,?,?,?)',
     [request.json.get('name'),request.json.get('address'),request.json.get('phone_num'),request.json.get('bio'),
-    request.json.get('city'),request.json.get('email'),request.json.get('profile_url'),request.json.get('banner_url'),token])
+    request.json.get('city'),request.json.get('email'),request.json.get('profile_url'),
+    request.json.get('banner_url'),request.json.get('password'),token,salt])
     if(type(results) == list):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == str):

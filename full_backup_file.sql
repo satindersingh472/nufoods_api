@@ -31,11 +31,12 @@ CREATE TABLE `client` (
   `created_at` date NOT NULL DEFAULT current_timestamp(),
   `image_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
   `password` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `salt` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_UN_email` (`email`),
   CONSTRAINT `client_CHECK_email` CHECK (`email` like '%@%' and `email` like '%.%'),
   CONSTRAINT `client_password_length` CHECK (octet_length(`password`) > 5)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +45,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (1,'satinder123','satinder','singh','s@email.com','2022-10-18','https://images.unsplash.com/photo-1661961112134-fbce0fdf3d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','123456'),(43,'username_one','sam','last','sam@email.com','2022-10-21','image_url','eoeoeoeoeooeoeoeoriirfnfn4342');
+INSERT INTO `client` VALUES (58,'fed','defy','last','xddddsb@email.com','2022-10-22','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*F238469D8A8A9AE1D1E291B8F2C841FE1BE7496C','786b978b54984eb2b6f8d1cc4a648706'),(59,'fed_two','defy_two','last_two','xdddds_twob@email.com','2022-10-22','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*C00DC03CF6799A87AE700A61195A0A38FD0A9D72','64db1862143547d19cd2463fd4145939');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +74,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (17,'123456',43,'2022-10-21 14:40:31');
+INSERT INTO `client_session` VALUES (26,'4346f081a06e4e2dafa1d2816eb5656e',58,'2022-10-22 13:51:13'),(27,'839b421e47d34962881b2cdb65fcf017',59,'2022-10-22 13:51:52');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,11 +183,13 @@ CREATE TABLE `restaurant` (
   `email` varchar(300) COLLATE utf8mb4_bin NOT NULL,
   `profile_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
   `banner_url` mediumtext COLLATE utf8mb4_bin NOT NULL,
+  `password` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `salt` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `restaurant_UN_phone` (`phone_num`),
   UNIQUE KEY `restaurant_UN_email` (`email`),
   CONSTRAINT `restaurant_phone_num_length` CHECK (octet_length(`phone_num`) >= 10 and octet_length(`phone_num`) <= 15)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +198,7 @@ CREATE TABLE `restaurant` (
 
 LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-INSERT INTO `restaurant` VALUES (6,'tandoori','123 fake st','12345678910','My@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois');
+INSERT INTO `restaurant` VALUES (13,'ccs','123 original st','1234567f8910','ccs@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois','*B588E00180E6C5F821918D17350802E5EF40F954','12c27784735b455cbd5776cf31aea464'),(15,'ccs_Two','123 original st_two','123456789102','ccs@email.com_two','I am tandoori restaurant_two','edmonton_two','https:nckdscjdscncsndc','https://djoisksaois','*F1D72C2994CB49F57BBEB414CD96C1B3ADB822A2','976ecb21e7724a86bbecd85cfd8ea8c6');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +218,7 @@ CREATE TABLE `restaurant_session` (
   UNIQUE KEY `restaurant_session_UN` (`token`),
   KEY `restaurant_session_FK` (`restaurant_id`),
   CONSTRAINT `restaurant_session_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +227,7 @@ CREATE TABLE `restaurant_session` (
 
 LOCK TABLES `restaurant_session` WRITE;
 /*!40000 ALTER TABLE `restaurant_session` DISABLE KEYS */;
-INSERT INTO `restaurant_session` VALUES (4,'30d69776614d46a99bce302c6442d848','2022-10-22 10:51:43',6);
+INSERT INTO `restaurant_session` VALUES (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13),(9,'06ae075f5aea4ece8127e1b2a6b9d011','2022-10-22 13:55:28',15);
 /*!40000 ALTER TABLE `restaurant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,11 +245,11 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_client`(username_input varchar(200),first_name_input varchar(200), 
-last_name_input varchar(200), email_input varchar(300),image_url_input mediumtext, password_input varchar(200),token_input varchar(100))
+last_name_input varchar(200), email_input varchar(300),image_url_input mediumtext, password_input varchar(200),token_input varchar(100),salt_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
-	insert into client(username,first_name,last_name,email,image_url,password)
-	values(username_input,first_name_input,last_name_input,email_input,image_url_input,password_input);
+	insert into client(username,first_name,last_name,email,image_url,password,salt)
+	values(username_input,first_name_input,last_name_input,email_input,image_url_input,password(concat(password_input,salt_input)),salt_input);
 
 	insert into client_session (client_id,token)
 	values( last_insert_id(), token_input);
@@ -387,11 +390,12 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `restaurant_post`(name_input varchar(200), address_input varchar(500),phone_num_input varchar(20),
-city_input varchar(100),email_input varchar(300),bio_input varchar(500),profile_url_input mediumtext, banner_url_input mediumtext, token_input varchar(100))
+city_input varchar(100),email_input varchar(300),bio_input varchar(500),profile_url_input mediumtext, 
+banner_url_input mediumtext, password_input varchar(200), token_input varchar(100), salt_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
-	insert into restaurant(name,address,phone_num,city,email,bio,profile_url,banner_url)
-	values(name_input, address_input, phone_num_input, city_input,email_input,bio_input,profile_url_input, banner_url_input);
+	insert into restaurant(name,address,phone_num,city,email,bio,profile_url,banner_url,password,salt)
+	values(name_input, address_input, phone_num_input, city_input,email_input,bio_input,profile_url_input, banner_url_input, password(concat(password_input,salt_input)),salt_input);
 	
 	insert into restaurant_session (restaurant_id, token)
 	values(last_insert_id(), token_input);
@@ -462,4 +466,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-22 11:00:51
+-- Dump completed on 2022-10-22 13:56:34
