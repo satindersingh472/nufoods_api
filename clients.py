@@ -34,44 +34,43 @@ def add_client():
         # if sent then it will generate a token and send it along with
         # other data params to the stored procedure
     token = uuid4().hex
+    # token will be sent along with other arguments to run the store procedure
     results = conn_exe_close('call add_client(?,?,?,?,?,?,?)',
     [request.json.get('username'),request.json.get('first_name'),request.json.get('last_name'),request.json.get('email'),
     request.json.get('image_url'),request.json.get('password'),token])
+    # the result returning back will be a list of one tuple and with client id and token 
     if(type(results) == list):
         return make_response(json.dumps(results,default=str),200)
+        # if not then the str with error will show up with response code 400
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
+        # if something goes wrong with server error 500 will show up
     else:
         return make_response(json.dumps(results,default=str),500)
 
-def token_valid():
-    invalid = verify_endpoints_info(request.headers,['token'])
-    if(invalid != None):
-        return make_response(json.dumps(invalid,default=str),400)
-    results = conn_exe_close('call client_token_id(?)',[request.headers.get('token')])
-    return results
 
-
+# this will delete the client and return the appropriate response back 
 def client_delete():
-    id = token_valid()
-    if(type(id) == list and type(id[0][0]) == int and id[0][1] == 1):
-        invalid = verify_endpoints_info(request.json,['password'])
-        if(invalid != None):
-            return make_response(json.dumps(invalid,default=str),400)
-        results = conn_exe_close('call client_delete(?,?)',
-        [id[0][0],request.json.get('password')])
-        if( type(results) == list and results[0][0] == 1):
-            results_json = make_response(json.dumps('Client deleted successfully',default=str),200)
-            return results_json
-        elif( type(results)== list and results[0][0] == 0):
-            return make_response(json.dumps('No client deleted, Check password',default=str),400)
-        elif(type(results) != list):
-            return make_response(json.dumps(results,default=str),400)
-        else:
-            return make_response(json.dumps(results,default=str),500)
-    elif(type(id) == list and id[0][0] != int and id[0][1] == 0):
-        return make_response(json.dumps('No user exists with these credentials',default=str),400)
-    elif(type(id) != list or type(id) == str):
-        return id
+    # check if the header is included with the api request
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        # if header is missing then this statement is true and return the error with code 400
+        return make_response(json.dumps(invalid_header,default=str),400)
+        # no will check for password if entered
+    invalid = verify_endpoints_info(request.json,['password'])
+    if(invalid != None):
+        # if password not sent then error will show up with code 400
+        return make_response(json.dumps(invalid,default=str),400)
+        # if everything is included then it will run the stored procedure
+    results = conn_exe_close('call client_delete(?,?)',[request.json.get('password'),request.headers.get('token')])
+    # if results is in list form and it sends 1 back means number of rows updated is 1
+    # then this means that client is deleted successfully
+    if( type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('Client deleted successfully',default=str),200)
+        # if result is an empty list then client is not deleted may be password is wrong
+    elif( type(results)== list and results[0][0] == 0):
+        return make_response(json.dumps('No client deleted',default=str),400)
+    elif(type(results) != list):
+        return make_response(json.dumps(results,default=str),400)
     else:
-        return make_response(json.dumps('Sorry, something went wrong',default=str),500)
+        return make_response(json.dumps(results,default=str),500)
