@@ -3,11 +3,16 @@ from flask import Flask
 # import dbcreds to check for production mode
 import dbcreds
 # import client.py for client endpoints
-from clients import specific_client,add_client,client_delete
+from clients import client_login,specific_client,add_client,client_delete
 from restaurants import all_restaurants, specific_restaurant,restaurant_post
 from menu import all_menu
 
 app = Flask(__name__)
+
+# this is for the client login endpoint
+@app.post('/api/client_login')
+def use_client_login():
+    return client_login()
 
 # ------------------------------------------------------------------------------------------------------------------
 # client section starts from here

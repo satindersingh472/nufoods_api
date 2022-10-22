@@ -4,6 +4,27 @@ from flask import request,make_response
 from apihelpers import verify_endpoints_info
 from uuid import uuid4
 
+# '/api/client_login' start from here for 2 different methods post and delete 
+
+def client_login():
+    invalid = verify_endpoints_info(request.json,['email','password'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    token = uuid4().hex
+    results = conn_exe_close('call client_login(?,?,?)',
+    [request.json.get('email'),request.json.get('password'),token])
+    if(type(results) == list and len(results) == 1):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('no user exists with credentials',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
+
+
+# ------------------------------------------------------------------------------------------------
+# below section is for '/api/client'
 
 # specific client will return the client with the provided input id
 def specific_client():

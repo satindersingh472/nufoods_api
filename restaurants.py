@@ -58,6 +58,9 @@ def restaurant_post():
         # if everything is ok from user side then error will be coming from server side
         return make_response(json.dumps(results,default=str),500)
 
+
+# DELETE restaurant
+# this will delete the restaurant with the given token as a header and restaurant id as a data
 def restaurant_delete():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):

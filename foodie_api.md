@@ -9,6 +9,35 @@ https://nufoods.ml
 
 # Endpoints
 
+## `Client-Login`
+## /api/client_login
+HTTP methods available: **POST, DELETE**
+
+### `POST`
+
+Helps the client to login successfully with the email and password.<br>
+returns the client id and token 
+
+**Required Data**
+```
+{
+    email: (string),
+    password: (string)
+}
+```
+**Data Returned**
+```
+{
+    client_id : (number),
+    token: (string)
+}
+```
+
+
+
+<br>
+<br>
+
 ## `Clients`
 ## /api/clients
 
@@ -170,6 +199,30 @@ it will also send back the restaurant id and token for signing in right after th
     token: (string)
 }
 ```
+<br>
+
+### `DELETE`
+
+Deleted the existing restaurant with if token is given and password.<br>
+return error if credentials are not correct.<br>
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+
+**Required Data**
+```
+{
+    passsword: (string)
+}
+```
+**Data Returned**
+**On success**: "restaurant deleted successfully"
+**On failure**: "no restaurant deleted" or **any other error messages**
+
 
 <br>
 <br>
