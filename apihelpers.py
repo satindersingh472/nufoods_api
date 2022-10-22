@@ -6,10 +6,6 @@ from dbhelpers import conn_exe_close
 from flask import make_response
 import json
 
-# single function to handle database interactions
-# and based on results will send errors
-def get_display_results(statement,args_list):
-    return conn_exe_close(statement,args_list)
     
 # will verifiy end points arguments for presence
 # if necessary arguments not sent then remind the user to send

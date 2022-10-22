@@ -1,8 +1,7 @@
-from ast import Str
+from dbhelpers import conn_exe_close 
 import json
 from flask import request,make_response
-import json
-from apihelpers import get_display_results,verify_endpoints_info
+from apihelpers import verify_endpoints_info
 from uuid import uuid4
 
 
@@ -15,7 +14,7 @@ def specific_client():
         return make_response(json.dumps(invalid,default=str),400)
         # is sent then it will go further and call the function to add client wit given all 
         # the data inside params
-    results = get_display_results('call specific_client(?)',[request.args.get('client_id')])
+    results = conn_exe_close('call specific_client(?)',[request.args.get('client_id')])
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
@@ -35,7 +34,7 @@ def add_client():
         # if sent then it will generate a token and send it along with
         # other data params to the stored procedure
     token = uuid4().hex
-    results = get_display_results('call add_client(?,?,?,?,?,?,?)',
+    results = conn_exe_close('call add_client(?,?,?,?,?,?,?)',
     [request.json.get('username'),request.json.get('first_name'),request.json.get('last_name'),request.json.get('email'),
     request.json.get('image_url'),request.json.get('password'),token])
     if(type(results) == list):
@@ -49,7 +48,7 @@ def token_valid():
     invalid = verify_endpoints_info(request.headers,['token'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
-    results = get_display_results('call client_token_id(?)',[request.headers.get('token')])
+    results = conn_exe_close('call client_token_id(?)',[request.headers.get('token')])
     return results
 
 
@@ -59,7 +58,7 @@ def client_delete():
         invalid = verify_endpoints_info(request.json,['password'])
         if(invalid != None):
             return make_response(json.dumps(invalid,default=str),400)
-        results = get_display_results('call client_delete(?,?)',
+        results = conn_exe_close('call client_delete(?,?)',
         [id[0][0],request.json.get('password')])
         if( type(results) == list and results[0][0] == 1):
             results_json = make_response(json.dumps('Client deleted successfully',default=str),200)
