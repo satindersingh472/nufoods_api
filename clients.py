@@ -5,18 +5,21 @@ from apihelpers import verify_endpoints_info
 from uuid import uuid4
 
 # '/api/client_login' start from here for 2 different methods post and delete 
-
 def client_login():
+    # will verify that the required params are sent or not
     invalid = verify_endpoints_info(request.json,['email','password'])
     if(invalid != None):
+        # if not return the response with error 400
         return make_response(json.dumps(invalid,default=str),400)
+    # if given the params will continue and generate the token for procedure 
     token = uuid4().hex
     results = conn_exe_close('call client_login(?,?,?)',
     [request.json.get('email'),request.json.get('password'),token])
+    # the procedure will return the results with id and token and the tuple must be of length 1
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results,default=str),200)
-    elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('no user exists with credentials',default=str),400)
+    elif(type(results) == list and len(results) == 0 or len(results) != 1):
+        return make_response(json.dumps('username or password is not valid',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
 
