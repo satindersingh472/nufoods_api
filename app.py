@@ -4,7 +4,7 @@ from flask import Flask
 import dbcreds
 # import client.py for client endpoints
 from clients import client_login,client_logout,specific_client,add_client,client_delete
-from restaurants import  restaurant_login,all_restaurants,specific_restaurant,restaurant_post
+from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
 from menu import all_menu
 
 app = Flask(__name__)
@@ -37,9 +37,17 @@ def use_add_client():
 def use_client_delete():
     return client_delete()
 # -------------------------------------------------------------------------------------------------------------------
+# will login the restaurant using restaurant login module
+# POST
 @app.post('/api/restaurant_login')
 def use_restaurant_login():
     return restaurant_login()
+
+# will logout the restaurant
+# DELETE
+@app.delete('/api/restaurant_login')
+def use_restaurant_logout():
+    return restaurant_logout()
 
 # ---------------------------------------------------------------------------------------------------------------------
 # will use all restaurants function and return all the restaurants no id is required
@@ -57,6 +65,10 @@ def use_specific_restaurant():
 @app.post('/api/restaurant')
 def use_restaurant_post():
     return restaurant_post()
+
+@app.delete('/api/restaurant')
+def use_restaurant_delete():
+    return restaurant_delete()
 
 # -----------------------------------------------------------------------------------------------------------------------
 @app.get('/api/menu')

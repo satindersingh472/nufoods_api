@@ -20,6 +20,19 @@ def restaurant_login():
         return make_response(json.dumps(results,default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
+    
+
+def restaurant_logout():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    results = conn_exe_close('call restaurant_logout(?)',[request.headers.get('token')])
+    if(type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('restaurant logout successfully',default=str),200)
+    elif(type(results) == list and results[0][0] == 0):
+        return make_response(json.dumps('restaurant logout not successfull or already logged out',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 
 
@@ -89,7 +102,7 @@ def restaurant_delete():
     invalid = verify_endpoints_info(request.json,['password'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
-    results = conn_exe_close('call restaurant_delete(?,?)',[request.headers.get('token'),request.json.get('password')])
+    results = conn_exe_close('call restaurant_delete(?,?)',[request.json.get('password'),request.headers.get('token')])
     if(type(results) == list and results[0][0] == 1):
         return make_response(json.dumps('restaurant deleted successfully',default=str),200)
     elif(type(results) == list and results[0][0] == 0):

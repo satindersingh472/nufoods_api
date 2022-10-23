@@ -189,7 +189,7 @@ CREATE TABLE `restaurant` (
   UNIQUE KEY `restaurant_UN_phone` (`phone_num`),
   UNIQUE KEY `restaurant_UN_email` (`email`),
   CONSTRAINT `restaurant_phone_num_length` CHECK (octet_length(`phone_num`) >= 10 and octet_length(`phone_num`) <= 15)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +198,7 @@ CREATE TABLE `restaurant` (
 
 LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-INSERT INTO `restaurant` VALUES (13,'ccs','123 original st','1234567f8910','ccs@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois','*B588E00180E6C5F821918D17350802E5EF40F954','12c27784735b455cbd5776cf31aea464'),(16,'dcmonalds','123 fake st','12345678910','I am dcmonalds restaurant','edmonton','dc@email.com','this is profile url','this is banner url','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','salt_123456');
+INSERT INTO `restaurant` VALUES (13,'ccs','123 original st','1234567f8910','ccs@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois','*B588E00180E6C5F821918D17350802E5EF40F954','12c27784735b455cbd5776cf31aea464'),(21,'dcmonalds','123 fake st','1234561324','I am dcmonalds restaurant','edmonton','dc@email.com','this is profile url','this is banner url','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','salt_123456');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `restaurant_session` (
   UNIQUE KEY `restaurant_session_UN` (`token`),
   KEY `restaurant_session_FK` (`restaurant_id`),
   CONSTRAINT `restaurant_session_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `restaurant_session` (
 
 LOCK TABLES `restaurant_session` WRITE;
 /*!40000 ALTER TABLE `restaurant_session` DISABLE KEYS */;
-INSERT INTO `restaurant_session` VALUES (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13),(10,'token_123456','2022-10-23 04:31:01',16),(13,'token_dcmonald_two','2022-10-23 04:48:45',16),(14,'token_dcmonald_three','2022-10-23 04:48:53',16),(15,'ecba7bf8fd72455f97f0e6d9257707a7','2022-10-23 06:00:56',16),(16,'30be3f60b920492bae2306594d038df2','2022-10-23 06:00:59',16),(17,'66792ec347ac43a5ae0d613eca10cdb7','2022-10-23 06:01:00',16),(18,'22937ddaedf44d43bf9c50034be08a49','2022-10-23 06:01:01',16),(19,'5589addf911c4cd6826975c56b7a6b75','2022-10-23 06:01:02',16),(20,'830a9378b6ce43d1842b54c3afc3e297','2022-10-23 06:01:02',16),(21,'f85c2417c60b451dacce7a57a2f8c608','2022-10-23 06:01:27',16);
+INSERT INTO `restaurant_session` VALUES (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13);
 /*!40000 ALTER TABLE `restaurant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,8 +444,8 @@ BEGIN
 	from restaurant r inner join restaurant_session rs on rs.restaurant_id = r.id 
 	where rs.token = token_input and 
 	r.password = password(concat(password_input, (SELECT salt where rs.token = token_input)));
-	commit;
 	select row_count();
+	commit;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -588,4 +588,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-23  6:11:17
+-- Dump completed on 2022-10-23  6:43:49
