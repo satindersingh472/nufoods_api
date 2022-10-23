@@ -157,8 +157,17 @@ Returns the restaurant id and token<br>
 ### `DELETE`
 
 Deletes the token in use for a restaurant to logout safely
+send the token as a header
 
-**Required Data**
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+**Returned Data**
+**On success**: "restaurant logout successfully"<br>
+**On failure**: "restaurant logout not successfull or already logged out" or **any other error**.<br>
 
 
 <br>
