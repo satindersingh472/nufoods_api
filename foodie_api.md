@@ -128,6 +128,42 @@ Deletes the existing client with token sent as header and password sent as requi
 <br>
 <br>
 
+## `Restaurant_Login`
+## /api/restaurant_login
+HTTP methods available : **POST,DELETE**
+
+### `POST`
+
+Helps login a restaurant with valid email and password.<br>
+Returns the restaurant id and token<br>
+
+**Required Data**
+```
+{
+    email: (string),
+    password: (string)
+}
+```
+
+**Data Returned**
+```
+{
+    id: (number),
+    token: (string)
+}
+```
+<br>
+
+### `DELETE`
+
+Deletes the token in use for a restaurant to logout safely
+
+**Required Data**
+
+
+<br>
+<br>
+
 ## `Restaurants`
 ## /api/restaurants
 HTTP methods available: **GET**

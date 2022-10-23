@@ -16,7 +16,10 @@ def restaurant_login():
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
         return make_response(json.dumps('Invalid username or password',default=str),400)
-    elif(type(results) == str)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
 
 
 
