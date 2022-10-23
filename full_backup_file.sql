@@ -96,7 +96,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `menu_FK` (`restaurant_id`),
   CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (40,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:43:54'),(41,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(42,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(43,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:59:45'),(44,'burger_two',6.99,'i am a burger','',21,'2022-10-23 08:00:31');
+INSERT INTO `menu` VALUES (40,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:43:54'),(41,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(42,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(43,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:59:45'),(44,'burger_two',6.99,'i am a burger','',21,'2022-10-23 08:00:31'),(45,'sandwich',5.46,'i am a sandwich','i am image url',13,'2022-10-23 17:25:34'),(46,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:02'),(47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),(48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),(49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),(50,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(51,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(52,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:28'),(53,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:29'),(54,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(55,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(56,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(57,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:33'),(58,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:30:06'),(59,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:30:25');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -616,4 +616,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-23 17:24:34
+-- Dump completed on 2022-10-23 17:30:54
