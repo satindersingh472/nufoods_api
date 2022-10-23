@@ -35,8 +35,8 @@ CREATE TABLE `client` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `client_UN_email` (`email`),
   CONSTRAINT `client_CHECK_email` CHECK (`email` like '%@%' and `email` like '%.%'),
-  CONSTRAINT `client_password_length` CHECK (octet_length(`password`) > 5)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  CONSTRAINT `client_password_length_greater_than_10` CHECK (octet_length(`password`) >= 10)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (58,'fed','defy','last','xddddsb@email.com','2022-10-22','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*F238469D8A8A9AE1D1E291B8F2C841FE1BE7496C','786b978b54984eb2b6f8d1cc4a648706'),(59,'fed_two','defy_two','last_two','xdddds_twob@email.com','2022-10-22','https://images.unsplash.com/photo-1666090246527-66ce6c7770d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*C00DC03CF6799A87AE700A61195A0A38FD0A9D72','64db1862143547d19cd2463fd4145939'),(62,'sadffefaasdd','samdsacaadpale','csdaccdcuser','samplcdsdcdscusere@email.com','2022-10-22','https://images.unsplash.com/photo-1661956601030-fdfb9c7e9e2f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*45F1FE7F6E522DC00A29D098B931CAB6523F7F05','64564564646jhghjjvgfv'),(63,'nuh','nuhaar','kaur','nuhaar@email.com','2022-10-22','https://images.unsplash.com/photo-1661956601030-fdfb9c7e9e2f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*0D3F40222C347A2CACF7B5684B35FB5C92C9CE60','salt_nuhaar');
+INSERT INTO `client` VALUES (63,'nuh','nuhaar','kaur','nuhaar@email.com','2022-10-22','https://images.unsplash.com/photo-1661956601030-fdfb9c7e9e2f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*0D3F40222C347A2CACF7B5684B35FB5C92C9CE60','salt_nuhaar'),(64,'jag','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*29DE876DFC0FA7DB5E5BB76DD037A22766CD0327','salt_jag');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (26,'4346f081a06e4e2dafa1d2816eb5656e',58,'2022-10-22 13:51:13'),(27,'839b421e47d34962881b2cdb65fcf017',59,'2022-10-22 13:51:52'),(30,'token_123456',62,'2022-10-22 15:37:34'),(32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11');
+INSERT INTO `client_session` VALUES (32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),(46,'token_jag',64,'2022-10-23 04:41:10'),(47,'token_jag_one',64,'2022-10-23 04:43:50');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,7 +189,7 @@ CREATE TABLE `restaurant` (
   UNIQUE KEY `restaurant_UN_phone` (`phone_num`),
   UNIQUE KEY `restaurant_UN_email` (`email`),
   CONSTRAINT `restaurant_phone_num_length` CHECK (octet_length(`phone_num`) >= 10 and octet_length(`phone_num`) <= 15)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +198,7 @@ CREATE TABLE `restaurant` (
 
 LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-INSERT INTO `restaurant` VALUES (13,'ccs','123 original st','1234567f8910','ccs@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois','*B588E00180E6C5F821918D17350802E5EF40F954','12c27784735b455cbd5776cf31aea464');
+INSERT INTO `restaurant` VALUES (13,'ccs','123 original st','1234567f8910','ccs@email.com','I am tandoori restaurant','edmonton','https:nckdscjdscncsndc','https://djoisksaois','*B588E00180E6C5F821918D17350802E5EF40F954','12c27784735b455cbd5776cf31aea464'),(16,'dcmonalds','123 fake st','12345678910','I am dcmonalds restaurant','edmonton','dc@email.com','this is profile url','this is banner url','*F28064AE72F6BF705A01724B55EB5BEE5088A2FB','salt_123456');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `restaurant_session` (
   UNIQUE KEY `restaurant_session_UN` (`token`),
   KEY `restaurant_session_FK` (`restaurant_id`),
   CONSTRAINT `restaurant_session_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `restaurant_session` (
 
 LOCK TABLES `restaurant_session` WRITE;
 /*!40000 ALTER TABLE `restaurant_session` DISABLE KEYS */;
-INSERT INTO `restaurant_session` VALUES (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13);
+INSERT INTO `restaurant_session` VALUES (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13),(10,'token_123456','2022-10-23 04:31:01',16),(11,'token_dcmonalds','2022-10-23 04:48:28',16),(13,'token_dcmonald_two','2022-10-23 04:48:45',16),(14,'token_dcmonald_three','2022-10-23 04:48:53',16);
 /*!40000 ALTER TABLE `restaurant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,6 +452,33 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `restaurant_login` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `restaurant_login`(email_input varchar(300),password_input varchar(200),token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	insert into restaurant_session (restaurant_id,token)
+	select r.id, token_input
+	from restaurant r where r.email = email_input and 
+	r.password = password(concat(password_input, (select salt from restaurant where email = email_input)));
+	
+	select rs.restaurant_id , convert (rs.token using utf8)
+	from restaurant_session rs where rs.token = token_input;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `restaurant_post` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -539,4 +566,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-22 17:19:55
+-- Dump completed on 2022-10-23  4:56:35

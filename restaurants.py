@@ -5,8 +5,18 @@ from uuid import uuid4
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info
 
-
-
+def restaurant_login():
+    invalid = verify_endpoints_info(request.json, ['email','password'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    token = uuid4().hex
+    results = conn_exe_close('call restaurant_login(?,?,?)',
+    [request.json.get('email'),request.json.get('password'),token])
+    if(type(results) == list and len(results) == 1):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('Invalid username or password',default=str),400)
+    elif(type(results) == str)
 
 
 
