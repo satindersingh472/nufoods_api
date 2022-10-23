@@ -37,7 +37,7 @@ def menu_post():
     invalid = verify_endpoints_info(request.json,['name','price','description','image_url'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
-    results = conn_exe_close('call menu_post(?,?,?,?,?',
+    results = conn_exe_close('call menu_post(?,?,?,?,?)',
     [request.json.get('name'),request.json.get('price'),request.json.get('description'),
     request.json.get('image_url'),request.headers.get('token')])
     # if item added it will return the menu item id

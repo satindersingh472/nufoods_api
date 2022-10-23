@@ -444,7 +444,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `menu_post`(name_input varchar(50), 
 BEGIN
 	insert into menu(name,price,description,image_url, restaurant_id)
 	select name_input, price_input, description_input, image_url_input,rs.restaurant_id  
-	from restaurant_session rs where rs.token = token_input and now()- rs.created_at <= 860400;
+	from restaurant_session rs where rs.token = token_input;
 
 	select LAST_INSERT_ID()
 	from menu m where m.created_at = NOW(); 
@@ -616,4 +616,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-23 17:23:29
+-- Dump completed on 2022-10-23 17:24:34
