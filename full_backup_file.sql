@@ -96,7 +96,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `menu_FK` (`restaurant_id`),
   CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (40,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:43:54'),(41,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(42,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04');
+INSERT INTO `menu` VALUES (40,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:43:54'),(41,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(42,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),(43,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:59:45'),(44,'burger_two',6.99,'i am a burger','',21,'2022-10-23 08:00:31');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +444,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `menu_post`(name_input varchar(50), 
 BEGIN
 	insert into menu(name,price,description,image_url, restaurant_id)
 	select name_input, price_input, description_input, image_url_input,rs.restaurant_id  
-	from restaurant_session rs where rs.token = token_input and now()- rs.created_at < 86400;
+	from restaurant_session rs where rs.token = token_input and now()- rs.created_at <= 860400;
 
 	select LAST_INSERT_ID()
 	from menu m where m.created_at = NOW(); 
@@ -616,4 +616,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-23  7:45:18
+-- Dump completed on 2022-10-23 17:23:29
