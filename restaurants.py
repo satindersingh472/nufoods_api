@@ -5,6 +5,12 @@ from uuid import uuid4
 from dbhelpers import conn_exe_close
 from apihelpers import verify_endpoints_info
 
+
+
+
+
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
 # all restaurants will fulfill the get request and will get all the restaurants without any id given
 def all_restaurants():
     results = conn_exe_close('call all_restaurants()',[])
@@ -17,6 +23,8 @@ def all_restaurants():
     else:
         return make_response(json.dumps(results,default=str),500)
 
+
+# ------------------------------------------------------------------------------------------------------------------------------------------
 # specific restaurant will return the restaurant with specific id given as a param
 # this function will fulfill the get request
 # GET request

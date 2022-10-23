@@ -10,5 +10,11 @@ def all_menu():
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
     results = conn_exe_close('call all_menu(?)',[request.args.get('restaurant_id')])
-    results_json = make_response(json.dumps(results,default=str),200)
-    return results_json
+    if(type(results) == list and len(results) >= 1):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('sorry no menu available',default=str),200)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
