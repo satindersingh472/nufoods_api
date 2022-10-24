@@ -43,9 +43,11 @@ def menu_post():
     # if item added it will return the menu item id
     if(type(results)==list and len(results) == 1):
         return make_response(json.dumps(results[0][0],default=str),200)
+        # if item not added then the list will be returned with lenght 0
     elif(type(results) == list and len(results) == 0):
         # if not then error message will appear
         return make_response(json.dumps('no item added',default=str),400)
     else:
+        # if there is a server error then it will be shown as a error with 500 code
         return make_response(json.dumps(results,default=str),500)
     

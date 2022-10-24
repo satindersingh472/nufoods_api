@@ -60,7 +60,7 @@ def specific_client():
     if(type(results) == list and len(results) == 1):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('0 results matched your input',default=Str),400)
+        return make_response(json.dumps('0 results matched your input',default=str),400)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:
