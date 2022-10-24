@@ -284,9 +284,9 @@ return error if credentials are not correct.<br>
 
 ## `Menu`
 ## /api/menu
-HTTP methods available: **GET, POST, PATCH, DELETE**
+HTTP methods available: **GET, POST, PATCH, DELETE** <br>
 
-### `GET`
+### `GET` <br>
 
 Returns all the menu items associated with a restaurant
 
@@ -309,7 +309,7 @@ Returns all the menu items associated with a restaurant
 ]
 ```
 
-### `POST`
+### `POST` <br>
 
 Adds a new menu item to the restaurant.<br>
 Returns the id of newly added item.<br>
@@ -338,3 +338,22 @@ Returns the id of newly added item.<br>
 }
 ```
 
+### `DELETE` <br>
+
+Deletes a menu item if a valid token is sent as a header and menu_id as required data
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+**Required Data**
+```
+{
+    menu_id: (number)
+}
+```
+**Data Returned** <br>
+**On success**: "menu item deleted" <br>
+**On failure**: "menu item not exists or user is not authorized" or **any other error**.
