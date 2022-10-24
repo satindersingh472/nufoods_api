@@ -307,4 +307,34 @@ Returns all the menu items associated with a restaurant
         image_url: (string)
     },
 ]
+```
+
+### `POST`
+
+Adds a new menu item to the restaurant.<br>
+Returns the id of newly added item.<br>
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+
+**Required Data**
+```
+{
+    name: (string),
+    price: (number),
+    description: (string),
+    image_url: (string)
+}
+```
+**Data Returned**
+
+```
+{
+    id: (string)
+}
+```
 
