@@ -51,3 +51,19 @@ def menu_post():
         # if there is a server error then it will be shown as a error with 500 code
         return make_response(json.dumps(results,default=str),500)
     
+
+def menu_delete():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json,['menu_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    results = conn_exe_close('call menu_delete(?,?)',
+    [request.json.get('menu_id'),request.headers.get('token')])
+    if(type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('menu item deleted',default=str),200)
+    elif(type(results) == list and results[0][0] == 0):
+        return make_response(json.dumps('menu item not exists or user is not authorized',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
