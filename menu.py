@@ -52,18 +52,28 @@ def menu_post():
         return make_response(json.dumps(results,default=str),500)
     
 
+# will delete an item from the restaurant side
+# a restaurant will valid token and menu id is needed
 def menu_delete():
+    # token will be sent as a header and this will check if it is sent or not
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
+        # if not then error is sent back
         return make_response(json.dumps(invalid_header,default=str),400)
+        # check if menu id is sent
     invalid = verify_endpoints_info(request.json,['menu_id'])
     if(invalid != None):
+        # if not then error is sent
         return make_response(json.dumps(invalid,default=str),400)
+        # if menu id is sent as a data then request is performed
     results = conn_exe_close('call menu_delete(?,?)',
     [request.json.get('menu_id'),request.headers.get('token')])
+    # the procedure sends back the row count and if it is 1 then something is deleted
     if(type(results) == list and results[0][0] == 1):
         return make_response(json.dumps('menu item deleted',default=str),200)
+        # if not one or 0 then menu item is not deleted
     elif(type(results) == list and results[0][0] == 0):
         return make_response(json.dumps('menu item not exists or user is not authorized',default=str),400)
     else:
+        # if server error then it will show the following message
         return make_response(json.dumps(results,default=str),500)
