@@ -97,6 +97,32 @@ def order_completed():
         return make_response(json.dumps(results,default=str),500)
 
     
+def order_complete_confirmed():
+    # check if is complete is true and then if true data sent will be 1
+    if(request.args.get('is_completed') in ['true','True']):
+        data_one = 1
+        # if false then data sent will be 0
+    elif(request.args.get('is_completed') in ['false','False']):
+        data_one = 0
+        # check if is confirmed is true and then data sent will be 1
+    if(request.args.get('is_confirmed') in ['true','True']):
+        data_two = 1
+        # if false then data sent is 0
+    elif(request.args.get('is_confirmed') in ['false','False']):
+        data_two = 0
+        # send the request to the database
+    results = conn_exe_close('call order_complete_confirmed(?,?,?)',[request.headers.get('token'),data_one,data_two])
+    if(type(results) == list):
+        # if results is a list then following response will be shown
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == str):
+        # if error in results then this response will be shown
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        # if server error then this reponse will be shown
+        return make_response(json.dumps(results,default=str),500)    
+
+    
 def client_get():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
@@ -105,6 +131,8 @@ def client_get():
     is_completed = request.args.get('is_completed')
     if(is_completed == None and is_confirmed == None):
         return order_get()
+    elif(is_completed != None and is_confirmed != None):
+        return order_complete_confirmed()
     elif(is_confirmed != None and is_completed == None):
         return order_confirmed()
     elif(is_completed != None and is_confirmed == None):
