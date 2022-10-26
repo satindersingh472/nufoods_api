@@ -128,7 +128,7 @@ CREATE TABLE `order` (
   KEY `order_FK_2` (`client_id`),
   CONSTRAINT `order_FK_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_FK_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (80,1,1,13,63,'2022-10-26 13:04:38'),(81,1,0,13,63,'2022-10-26 13:04:49'),(82,0,1,13,63,'2022-10-26 13:05:01'),(83,0,0,13,63,'2022-10-26 13:06:24');
+INSERT INTO `order` VALUES (80,1,1,13,63,'2022-10-26 13:04:38'),(81,1,0,13,63,'2022-10-26 13:04:49'),(82,0,1,13,63,'2022-10-26 13:05:01'),(83,0,0,13,63,'2022-10-26 13:06:24'),(84,0,0,13,64,'2022-10-26 14:25:15'),(85,0,0,13,64,'2022-10-26 14:25:44'),(86,0,0,13,64,'2022-10-26 14:26:01');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +157,7 @@ CREATE TABLE `order_menu_item` (
   KEY `order_menu_item_FK_1` (`order_id`),
   CONSTRAINT `order_menu_item_FK` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_menu_item_FK_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +166,7 @@ CREATE TABLE `order_menu_item` (
 
 LOCK TABLES `order_menu_item` WRITE;
 /*!40000 ALTER TABLE `order_menu_item` DISABLE KEYS */;
-INSERT INTO `order_menu_item` VALUES (99,80,43),(100,80,41),(101,80,41),(102,81,44),(103,81,41),(104,81,43),(105,82,43),(106,82,41),(107,82,44),(108,83,44),(109,83,43),(110,83,41);
+INSERT INTO `order_menu_item` VALUES (99,80,43),(100,80,41),(101,80,41),(102,81,44),(103,81,41),(104,81,43),(105,82,43),(106,82,41),(107,82,44),(108,83,44),(109,83,43),(110,83,41),(112,84,43),(113,85,41),(114,85,43),(115,86,41),(116,86,43),(117,86,44);
 /*!40000 ALTER TABLE `order_menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -539,7 +539,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_completed`(token_input varchar(100),complete_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,m.name ,m.price ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_complete = complete_input;
 END ;;
@@ -560,7 +560,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_complete_confirmed`(token_input varchar(100), complete_input bool, confirm_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,m.name ,m.price ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_complete = complete_input and o.is_confirmed = confirm_input;
 END ;;
@@ -581,7 +581,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_confirmed`(token_input varchar(100),confirm_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,m.name ,m.price ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_confirmed = confirm_input;
 END ;;
@@ -602,7 +602,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_get`(token_input varchar(100))
 BEGIN
-	select o.is_complete , o.is_confirmed,m.name ,m.price ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete , o.is_confirmed,convert (m.name using utf8),format(m.price,2) ,m.id as menu_id ,o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input;
 	
@@ -797,4 +797,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-26 13:14:47
+-- Dump completed on 2022-10-26 17:18:15
