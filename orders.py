@@ -80,17 +80,35 @@ def order_confirmed():
         # if server error then this reponse will be shown
         return make_response(json.dumps(results,default=str),500)
 
+def order_completed():
+    if(request.args.get('is_completed') in ['true','True']):
+        data = 1
+    elif(request.args.get('is_completed') in ['false','False']):
+        data = 0
+    results = conn_exe_close('call order_completed(?,?)',[request.headers.get('token'),data])
+    if(type(results) == list):
+        # if results is a list then following response will be shown
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == str):
+        # if error in results then this response will be shown
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        # if server error then this reponse will be shown
+        return make_response(json.dumps(results,default=str),500)
+
     
 def client_get():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
     is_confirmed = request.args.get('is_confirmed')
-    is_complete = request.args.get('is_complete')
-    if(is_complete == None and is_confirmed == None):
+    is_completed = request.args.get('is_completed')
+    if(is_completed == None and is_confirmed == None):
         return order_get()
-    elif(is_confirmed != None and is_complete == None):
+    elif(is_confirmed != None and is_completed == None):
         return order_confirmed()
+    elif(is_completed != None and is_confirmed == None):
+        return order_completed()
     
 
         
