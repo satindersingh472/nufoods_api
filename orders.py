@@ -42,13 +42,20 @@ def client_post():
         return make_response(json.dumps(order_post,default=str),500)
 
 
+
+# order_get will get all the orders associated with a client
+# either confirmed,not confirmed, completed and not completed
 def order_get():
+    # will send the request to grab the orders related to the specific token
     results = conn_exe_close('call order_get(?)',[request.headers.get('token')])
     if(type(results) == list):
+        # if result is list then this response is shown
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == str):
+        # if error then this response is shown
         return make_response(json.dumps(results,default=str),400)
     else:
+        # or else for server error the following response is shown
         return make_response(json.dumps(results,default=str),500)
     
 def order_confirmed():
