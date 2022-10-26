@@ -371,3 +371,32 @@ HTTP methods available: **GET,POST** <br>
 ### `GET` <br>
 
 Returns all the orders made by a client with valid token.
+
+
+<br>
+
+### `POST`
+
+Post a new order from client side given the valid token as a header<br>
+and restaurant id and menu items as an arrar of numbers
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+**Required Data**
+```
+{
+    menu_items: [array of numbers],
+    restaurant_id: (number)
+}
+```
+**Data Returned**
+```
+{
+    order_id: (number)
+}
+
+
