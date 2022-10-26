@@ -124,17 +124,24 @@ def order_complete_confirmed():
 
     
 def client_get():
+    # check if valid header is sent with token
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
+        # if token not sent as a header then error will show up
         return make_response(json.dumps(invalid_header,default=str),400)
+    # store the value of arguments to make the process of checking easier
     is_confirmed = request.args.get('is_confirmed')
     is_completed = request.args.get('is_completed')
+    # if no data is sent regarding confirm or complete then all orders will be displayed
     if(is_completed == None and is_confirmed == None):
         return order_get()
+        # if both arguments sent will check for conditions and send the appropridate data
     elif(is_completed != None and is_confirmed != None):
         return order_complete_confirmed()
+        # if only confirmed is asked this condition will become true
     elif(is_confirmed != None and is_completed == None):
         return order_confirmed()
+        # if only completed is asked this will be true
     elif(is_completed != None and is_confirmed == None):
         return order_completed()
     
