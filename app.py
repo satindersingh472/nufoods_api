@@ -6,6 +6,7 @@ import dbcreds
 from clients import client_login,client_logout,specific_client,add_client,client_delete
 from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
 from menu import all_menu,menu_delete,menu_post
+from orders import client_post
 
 app = Flask(__name__)
 
@@ -36,6 +37,14 @@ def use_add_client():
 @app.delete('/api/client')
 def use_client_delete():
     return client_delete()
+# -------------------------------------------------------------------------------------------------------------------
+# client orders starts here
+@app.post('/api/client_order')
+def use_client_post():
+    return client_post()
+
+
+
 # -------------------------------------------------------------------------------------------------------------------
 # will login the restaurant using restaurant login module
 # POST
