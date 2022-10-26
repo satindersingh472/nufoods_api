@@ -371,7 +371,36 @@ HTTP methods available: **GET,POST** <br>
 ### `GET` <br>
 
 Returns all the orders made by a client with valid token.
+Data required is optional.<br>
 
+**Required Headers** <br>
+```
+{
+    token: (string)
+}
+```
+**Optional Params** <br>
+```
+{
+    is_completed : (string either "true" or "false)
+    is_confirmed : (string either "true" or "false")
+}
+```
+**Data returned**
+```
+[
+    {
+        is_complete: (boolean),
+        is_confirmed: (boolean),
+        name: (string),
+        price: (number with 2 decimals),
+        menu_item_id: (number),
+        order_id: (number)
+    },
+]
+```
+<br>
+<br>
 
 <br>
 
