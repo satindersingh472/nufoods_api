@@ -1,6 +1,5 @@
 import json
 from flask import request,make_response
-import json
 from apihelpers import verify_endpoints_info
 from dbhelpers import conn_exe_close
 

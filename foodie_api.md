@@ -67,15 +67,17 @@ Returns **the client_id argument is required**, if the client_id is not sent.
 
 **Data Returned:**
 ```
-{
-    cliend_id: (number),
-    first_name: (string),
-    last_name: (string),
-    email: (string),
-    username: (string),
-    image_url: (string)
+[
+    {
+        cliend_id: (number),
+        first_name: (string),
+        last_name: (string),
+        email: (string),
+        username: (string),
+        image_url: (string)
 
-}
+    }
+]
 ```
 <br>
 
@@ -215,17 +217,19 @@ if `restaurant_id` is not provided then it will show an error
 ```
 **Data Returned**
 ```
-{
-    restaurant_id: (number),
-    name: (string),
-    address: (string),
-    phone_num: (string),
-    bio: (string),
-    city: (string),
-    email: (string),
-    profile_url: (string),
-    banner_url: (string)
-}
+[
+    {
+        restaurant_id: (number),
+        name: (string),
+        address: (string),
+        phone_num: (string),
+        bio: (string),
+        city: (string),
+        email: (string),
+        profile_url: (string),
+        banner_url: (string)
+    }
+]
 ```
 ### `POST`
 
@@ -357,3 +361,13 @@ Deletes a menu item if a valid token is sent as a header and menu_id as required
 **Data Returned** <br>
 **On success**: "menu item deleted" <br>
 **On failure**: "menu item not exists or user is not authorized" or **any other error**.
+
+<br>
+
+## `Client_Order`
+## /api/client_order
+HTTP methods available: **GET,POST** <br>
+
+### `GET` <br>
+
+Returns all the orders made by a client with valid token.
