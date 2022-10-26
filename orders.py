@@ -39,12 +39,12 @@ def order_get():
         return make_response(json.dumps(results,default=str),500)
     
 def order_confirmed():
-    if(request.args.get('is_confirmed') == True or 'true'):
-        request.args.get('is_confirmed') == 1
-    elif(request.args.get('is_confirmed') == False or 'false'):
-        request.args.get('is_confirmed') == 0
+    if(request.args.get('is_confirmed') in ['true','True']):
+        request.args.get('is_confirmed') == '1'
+    elif(request.args.get('is_confirmed') == 'False' or 'false'):
+        request.args.get('is_confirmed') == '0'
 
-    results = conn_exe_close('call order_confirmed(?,?)',request.headers.get('token'),request.args.get('is_confirmed'))
+    results = conn_exe_close('call order_confirmed(?,?)',[request.headers.get('token'),request.args.get('is_confirmed')])
     if(type(results) == list):
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == str):
