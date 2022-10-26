@@ -45,7 +45,7 @@ def use_client_post():
 
 @app.get('/api/client_order')
 def use_order_get():
-    return order_confirmed()
+    return order_get()
 
 
 # -------------------------------------------------------------------------------------------------------------------
