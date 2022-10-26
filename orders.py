@@ -29,4 +29,29 @@ def client_post():
         return make_response(json.dumps(order_post,default=str),500)
 
 
+def order_get():
+    results = conn_exe_close('call order_get(?)',[request.headers.get('token')])
+    if(type(results) == list):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+    
+def order_confirmed():
+    if(request.args.get('is_confirmed') == True or 'true'):
+        request.args.get('is_confirmed') == 1
+    elif(request.args.get('is_confirmed') == False or 'false'):
+        request.args.get('is_confirmed') == 0
+
+    results = conn_exe_close('call order_confirmed(?,?)',request.headers.get('token'),request.args.get('is_confirmed'))
+    if(type(results) == list):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == str):
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+    
+
+
         
