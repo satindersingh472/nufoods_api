@@ -57,20 +57,40 @@ def order_get():
     else:
         # or else for server error the following response is shown
         return make_response(json.dumps(results,default=str),500)
-    
+
+
+# order_confirmed is used for sending request to get the confirmed order either not confirmed or confirmed
 def order_confirmed():
+    # will expect argument is_confirmed and check for value
+    # if value is true then 1 is sent to the database
+    # if value is false then 0 is sent to the database
     if(request.args.get('is_confirmed') in ['true','True']):
         data = 1
     elif(request.args.get('is_confirmed') == 'False' or 'false'):
         data = 0
+        # will send the request with valid header and is_confirmed value
     results = conn_exe_close('call order_confirmed(?,?)',[request.headers.get('token'),data])
     if(type(results) == list):
+        # if results is a list then following response will be shown
         return make_response(json.dumps(results,default=str),200)
     elif(type(results) == str):
+        # if error in results then this response will be shown
         return make_response(json.dumps(results,default=str),400)
     else:
+        # if server error then this reponse will be shown
         return make_response(json.dumps(results,default=str),500)
-    
 
+    
+def client_get():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    is_confirmed = request.args.get('is_confirmed')
+    is_complete = request.args.get('is_complete')
+    if(is_complete == None and is_confirmed == None):
+        return order_get()
+    elif(is_confirmed != None and is_complete == None):
+        return order_confirmed()
+    
 
         

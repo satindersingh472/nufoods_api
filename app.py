@@ -6,7 +6,7 @@ import dbcreds
 from clients import client_login,client_logout,specific_client,add_client,client_delete
 from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
 from menu import all_menu,menu_delete,menu_post
-from orders import client_post,order_get,order_confirmed
+from orders import client_post,client_get
 
 app = Flask(__name__)
 
@@ -44,8 +44,8 @@ def use_client_post():
     return client_post()
 
 @app.get('/api/client_order')
-def use_order_get():
-    return order_get()
+def use_client_get():
+    return client_get()
 
 
 # -------------------------------------------------------------------------------------------------------------------
