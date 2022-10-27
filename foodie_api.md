@@ -427,5 +427,48 @@ and restaurant id and menu items as an arrar of numbers
 {
     order_id: (number)
 }
+```
 
+## `Restaurnt_Order` <br>
+## api/restaurant_order <br>
+HTTP methods available : **GET,PATCH** <br>
+
+### `GET`
+
+Returns order based on data sent.modify the return by sending optional params
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+
+**Optional Params**
+```
+{
+    is_confirmed: (string either "true" or "false"),
+    is_completed: (string either "true" or "false")
+}
+```
+**Data Returned** <br>
+```
+[
+    {
+        is_complete: (boolean),
+        is_confirmed: (boolean),
+        name: (string),
+        price: (number),
+        menu_item_id: (number),
+        order_id: (number)
+    }
+]
+```
+<br>
+<br>
+
+### `PATCH`
+
+Modify the order by sending true for is_confirmed and is_completed.
+if is_completed is sent true without sending is_confirmed true then order will be confirmed as well.
 
