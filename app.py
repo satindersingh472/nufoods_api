@@ -5,7 +5,7 @@ import dbcreds
 # import client.py for client endpoints
 from clients import client_login,client_logout,specific_client,add_client,client_delete
 from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
-from menu import all_menu,menu_delete,menu_post
+from menu import all_menu,menu_delete,menu_post,menu_patch
 from client_orders import client_post,client_get
 from restaurant_orders import restaurant_get
 
@@ -97,6 +97,10 @@ def use_all_menu():
 @app.post('/api/menu')
 def use_menu_post():
     return menu_post()
+
+@app.patch('/api/menu')
+def use_menu_patch():
+    return menu_patch()
 
 @app.delete('/api/menu')
 def use_menu_delete():

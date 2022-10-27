@@ -1,6 +1,6 @@
 import json
 from flask import request,make_response
-from apihelpers import verify_endpoints_info
+from apihelpers import verify_endpoints_info,add_for_patch
 from dbhelpers import conn_exe_close
 
 # all menu will return the menu items associated with a particular restaurant
@@ -81,11 +81,18 @@ def menu_patch():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
-    invalid = verify_endpoints_info(request.json.get('menu_id'))
+    invalid = verify_endpoints_info(request.json,['menu_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
     menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
-    expected_data = ['name','price','description','image_url']
-    for data in expected_data:
-        if (request.json.get(data) == None):
-            menu_item_details[]
+    object = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
+    results = conn_exe_close('call menu_patch(?,?,?,?,?,?)',
+    [object['menu_id'],object['name'],object['price'],object['description'],object['image_url'],request.headers.get('token')])
+    if(type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('menu is successfully updated',default=str),200)
+    elif(type(results) == list and results[0][0] == 0):
+        return make_response(json.dumps(f'menu not updated',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+    
