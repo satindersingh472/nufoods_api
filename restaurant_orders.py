@@ -56,6 +56,31 @@ def order_restaurant_get_completed():
         # else if something goes wrong even after user sends correct info then it is server error
         return make_response(json.dumps(results,default=str),500)
 
+def order_restaurant_get_both():
+    # will save json arguments in variables for check purpose
+    is_completed = request.args.get('is_completed')
+    is_confirmed = request.args.get('is_confirmed')
+    # check if confirm is true or false and send that to the database either 0 or 1 based on bool
+    if(is_confirmed in ['true','True']):
+        data_one = 1
+    elif(is_confirmed in ['false','False']):
+        data_one = 0
+        # checkk if c
+    if(is_completed in ['true','True']):
+        data_two = 1
+    elif(is_completed in ['false','False']):
+        data_two = 0
+    results = conn_exe_close('call order_restaurant_get_both(?,?,?)',
+    [request.headers.get('token'),data_one,data_two])
+    if(type(results) == list):
+        return make_response(json.dumps(results,default=str),200)
+    elif(type(results) == str):
+        # str of results means problem with user input
+        return make_response(json.dumps(results,default=str),400)
+    else:
+        # else if something goes wrong even after user sends correct info then it is server error
+        return make_response(json.dumps(results,default=str),500)
+
 
 
 def restaurant_get():
@@ -69,8 +94,12 @@ def restaurant_get():
     # if no data argument is sent then this statement will be true and execute the function
     if(is_confirmed == None and is_completed == None):
         return order_restaurant_get()
-        # if is oonfirm is sent then the following statement will become true and execute the function
+    #if both is completed and is confirmed are sent then the following statement become true and execute the function 
+    elif(is_confirmed != None and is_completed != None):
+        return order_restaurant_get_both()   
+        # if is confirm is sent then the following statement will become true and execute the function
     elif(is_confirmed != None and is_completed == None):
         return order_restaurant_get_confirmed()
+        # if is completed is sent then the following statement will be true
     elif(is_completed != None and is_confirmed == None):
         return order_restaurant_get_completed()
