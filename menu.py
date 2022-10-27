@@ -76,3 +76,16 @@ def menu_delete():
     else:
         # if server error then it will show the following message
         return make_response(json.dumps(results,default=str),500)
+
+def menu_patch():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json.get('menu_id'))
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
+    expected_data = ['name','price','description','image_url']
+    for data in expected_data:
+        if (request.json.get(data) == None):
+            menu_item_details[]
