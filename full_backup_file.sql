@@ -118,10 +118,10 @@ CREATE TABLE `menu` (
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` VALUES
-(41,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:44:04'),
-(43,'burger_two',6.99,'i am a burger','https://image.com',21,'2022-10-23 07:59:45'),
-(44,'burger_two',6.99,'i am a burger','',21,'2022-10-23 08:00:31'),
-(46,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:02'),
+(41,'burger_two',6.99,'i am a burger_two','https://image_two.com',21,'2022-10-23 07:44:04'),
+(43,'burger_one',3.99,'i am a burger one','https://image_one.com',21,'2022-10-23 07:59:45'),
+(44,'burger_one',3.99,'i am a burger one','https://image_one.com',21,'2022-10-23 08:00:31'),
+(46,'burger_two',6.99,'i am a burger_two','https://image_two.com',13,'2022-10-23 17:28:02'),
 (47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),
 (48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),
 (49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),
@@ -514,6 +514,30 @@ BEGIN
 	where rs.token = token_input and m.id = id_input;
 	SELECT row_count();
 	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `menu_patch` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `menu_patch`(id_input int unsigned, name_input varchar(50), price_input float, description_input varchar(300),
+image_url_input mediumtext, token_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	update menu m inner join restaurant_session rs on rs.restaurant_id = m.restaurant_id
+	set m.name = name_input, m.price = price_input, m.description = description_input, m.image_url = image_url_input
+	where rs.token = token_input and m.id = id_input;
+	
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -958,4 +982,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-26 22:40:53
+-- Dump completed on 2022-10-27  0:12:55
