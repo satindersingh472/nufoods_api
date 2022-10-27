@@ -78,9 +78,11 @@ def menu_delete():
         return make_response(json.dumps(results,default=str),500)
 
 def menu_patch():
+    # will check for the token sent as header if not then error but no errror on wrong token
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
+    # menu_id is required so will check if it sent or not
     invalid = verify_endpoints_info(request.json,['menu_id'])
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
