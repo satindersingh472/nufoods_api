@@ -124,7 +124,7 @@ def restaurant_delete():
         # will check for password if sent or not either correct or incorrect
     invalid = verify_endpoints_info(request.json,['password'])
     if(invalid != None):
-        return make_response(json.dumps('password is required',default=str),400)
+        return make_response(json.dumps(invalid,default=str),400)
     # make a request to delete the restaurant by sending the password and header
     results = conn_exe_close('call restaurant_delete(?,?)',[request.json['password'],request.headers['token']])
     if(type(results) == list):

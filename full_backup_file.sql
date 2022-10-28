@@ -45,7 +45,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (63,'nu','nuhaar_one','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*38F28C87225877D5C40AEDAEB0A2194D0EB233DF','salt_123456'),(64,'jag','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*29DE876DFC0FA7DB5E5BB76DD037A22766CD0327','salt_jag'),(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca');
+INSERT INTO `client` VALUES (63,'nu','nuhaar_one','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*72EF3496A0E953E4DB89D064AA5B287DEA581AA7','salt_123456'),(64,'jag_one','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*29DE876DFC0FA7DB5E5BB76DD037A22766CD0327','salt_jag'),(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),(46,'token_jag',64,'2022-10-23 04:41:10'),(47,'token_jag_one',64,'2022-10-23 04:43:50'),(48,'7a095d612e584ef3a1af5b45b1e8694e',65,'2022-10-27 23:02:55'),(49,'token_for_nuhar',63,'2022-10-28 00:27:18'),(50,'token_for_nuhar_one',63,'2022-10-28 00:28:08');
+INSERT INTO `client_session` VALUES (32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),(46,'token_jag',64,'2022-10-23 04:41:10'),(47,'token_jag_one',64,'2022-10-23 04:43:50'),(48,'7a095d612e584ef3a1af5b45b1e8694e',65,'2022-10-27 23:02:55'),(49,'token_for_nuhar',63,'2022-10-28 00:27:18'),(50,'token_for_nuhar_one',63,'2022-10-28 00:28:08'),(52,'token_for_nuhar_two',63,'2022-10-28 00:53:38'),(53,'token_for_nuhar_three',63,'2022-10-28 01:09:07');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -358,6 +358,32 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_get_with_token` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_get_with_token`(token_input varchar(100))
+BEGIN
+	select 
+	CONVERT (c.username using utf8) as username, 
+	convert (c.first_name using utf8) as first_name,
+	convert (c.last_name using utf8) as last_name ,
+	convert (c.email using utf8) as email,
+	convert (c.image_url using utf8) as image_url
+	from client c inner join client_session cs on cs.client_id = c.id
+	where cs.token = token_input;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `client_login` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -417,12 +443,38 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch`(username_input varchar(200),first_name_input varchar(200),
-last_name_input varchar(200),email_input varchar(300),image_url_input mediumtext, password_input varchar(200),token_input varchar(100))
+last_name_input varchar(200),email_input varchar(300),image_url_input mediumtext,token_input varchar(100))
     MODIFIES SQL DATA
 BEGIN
 	update client c inner join client_session cs on c.id = cs.client_id 
 	set username =username_input , first_name= first_name_input, last_name = last_name_input,
-	email = email_input, image_url = image_url_input, password = password(concat(password_input, (select salt where cs.token = token_input)))
+	email = email_input, image_url = image_url_input
+	where cs.token = token_input;
+	select row_count() as row_count;
+	commit;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `client_patch_with_password` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `client_patch_with_password`(username_input varchar(200),first_name_input varchar(200),
+last_name_input varchar(200),email_input varchar(300),image_url_input mediumtext,password_input varchar(100), token_input varchar(100), salt_input varchar(100))
+    MODIFIES SQL DATA
+BEGIN
+	update client c inner join client_session cs on c.id = cs.client_id 
+	set username =username_input , first_name= first_name_input, last_name = last_name_input,
+	email = email_input, image_url = image_url_input, password = password (concat(password_input,salt_input)),salt = salt_input
 	where cs.token = token_input;
 	select row_count() as row_count;
 	commit;
@@ -1011,4 +1063,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28  0:35:40
+-- Dump completed on 2022-10-28  1:43:33
