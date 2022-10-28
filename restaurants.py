@@ -141,27 +141,37 @@ def restaurant_delete():
 def restaurant_patch():
     # will bring back the restaurant details with token
     results = conn_exe_close('call restaurant_get_with_token(?)',[request.headers['token']])
-    if(type(results) != list or len(results) != 1):
+    if(type(results) != list):
         # if results are not list and length 1 then return the function
         return make_response(json.dumps(results,default=str),400)
+    elif(type(results) == list and len(results) == 0):
+        return make_response(json.dumps('sorry something went wrong,log in again can solve the issue',default=str),400)
     # if results is a list of dict with len 1 then send the required arguments to the add for patch
     # to over write the data that inside original dict that we got from before has been sent by user
+    # will send the required and original results and request json to overwrite the original data recieved
     results = add_for_patch(request.json,['name','address','phone_num','bio','email','city','profile_url','banner_url'],results[0])
+    # after overwrite access all the key values needed to send the request for update the row
     results = conn_exe_close('call restaurant_patch(?,?,?,?,?,?,?,?,?)',
     [results['name'],results['address'],results['phone_num'],results['bio'],results['city'],results['email'],
     results['profile_url'],results['banner_url'],request.headers['token']])
+    # response will be the row count from db if it is 1 then all good 
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('restaurant profile updated',default=str),200)
     elif(type(results) != list or results[0]['row_count'] != 1):
+        # if row count is not 1 or something else then error
         return make_response(json.dumps('restaurant profile not updated',default=str),400)
     else:
+        # true if server error
         return make_response(json.dumps(results,default=str),500)  
     
 
-
+# this function is just checking token as a header and password
+# because password update has a diff stored procedure
+# if password is sent then password will be sent along with request by over writing other data arguments from original data
 def restaurant_patch_all():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
     invalid = verify_endpoints_info(request.json,['password'])
     if(invalid != None):
+        return restaurant_patch()

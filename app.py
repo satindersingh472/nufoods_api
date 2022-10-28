@@ -4,7 +4,7 @@ from flask import Flask
 import dbcreds
 # import client.py for client endpoints
 from clients import client_login,client_logout,specific_client,add_client,client_delete,client_patch_all
-from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
+from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete,restaurant_patch_all
 from menu import all_menu,menu_delete,menu_post,menu_patch
 from client_orders import client_post,client_get
 from restaurant_orders import restaurant_get,restaurant_patch
@@ -84,6 +84,10 @@ def use_specific_restaurant():
 @app.post('/api/restaurant')
 def use_restaurant_post():
     return restaurant_post()
+
+@app.patch('/api/restaurant')
+def use_restaurant_patch_all():
+    return restaurant_patch_all()
 
 @app.delete('/api/restaurant')
 def use_restaurant_delete():
