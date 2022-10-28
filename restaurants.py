@@ -199,7 +199,11 @@ def restaurant_patch_with_password():
 
 
 
-
+# this function is just checking that is token is sent as header 
+# if not token is not sent then error
+# it is also checking if the password is sent or no
+# if not then run the function that can update data without password
+# if yes then run the function that can update the password and salt too
 def restaurant_patch_all():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
