@@ -149,20 +149,33 @@ def client_patch():
         return make_response(json.dumps(results,default=str),500)
 
 
+# it will be called when password is sent with data 
+# everything is same but just sending the request to update to a new procedure with extra parameters
 def client_patch_with_password():
+    # will bring the original details of client just to have original data to send with request
+    # if the user does not send all the data required by the stored procedure to update the row in client table
     results = conn_exe_close('call client_get_with_token(?)',[request.headers['token']])
+    # if any error occurs or the client is not present with same credentials then the function will get
+    # returned with an error
     if(type(results) != list or len(results) != 1):
         return make_response(json.dumps(results,default=str),400)
+# will generate a new salt just to make sure we are safe
     salt = uuid4().hex
+    # now the following function will check for data sent and replace the original data with the data sent to 
+    # satisfy all the arguments required by the stored procedure
     results = add_for_patch(request.json,['email','first_name','last_name','image_url','username'],results[0])
+    # will send the request with original plus arguments data sent by client to the stored procedure to update the row inside the client table
     results = conn_exe_close('call client_patch_with_password(?,?,?,?,?,?,?,?)',
     [results['username'],results['first_name'],results['last_name'],results['email'],
     results['image_url'],request.json['password'],request.headers['token'],salt])
+    # if update is successfull then client will get a message
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('client information updated',default=str),200)
+        # if not successfull then this message will be sent
     elif(type(results) != list or results[0]['row_count'] == 0):
         return make_response(json.dumps('client info not changed',default=str),400)
     else:
+        # if error is not created by user then following statement will become true
         return make_response(json.dumps(results,default=str),500)
 
 
