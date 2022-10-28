@@ -692,7 +692,13 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_complete_confirmed`(token_input varchar(100), complete_input bool, confirm_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
+	select 
+	o.is_complete as is_completed ,
+	o.is_confirmed as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price ,
+	m.id as menu_id ,
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_complete = complete_input and o.is_confirmed = confirm_input;
 END ;;
@@ -713,7 +719,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_confirmed`(token_input varchar(100),confirm_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete as is_completed,
+	o.is_confirmed as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price ,
+	m.id as menu_id,
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_confirmed = confirm_input;
 END ;;
@@ -734,7 +745,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_get`(token_input varchar(100))
 BEGIN
-	select o.is_complete , o.is_confirmed,convert (m.name using utf8),format(m.price,2) ,m.id as menu_id ,o.id as order_id 
+	select o.is_complete as is_completed ,
+	o.is_confirmed as is_confirmed ,
+	convert (m.name using utf8) as name,
+	format(m.price,2) as price ,
+	m.id as menu_id ,
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input;
 	
@@ -780,7 +796,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_restaurant_get`(token_input varchar(100))
 BEGIN
-	select o.is_complete , o.is_confirmed ,convert(m.name using utf8), format(m.price,2) ,m.id as menu_id, o.id as order_id 
+	select o.is_complete as is_completed,
+	o.is_confirmed as is_confirmed ,
+	convert(m.name using utf8) as name ,
+	format(m.price,2) as price ,
+	m.id as menu_id, 
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o ON o.id = omi.order_id inner join menu m on m.id = omi.menu_id 
 	inner join restaurant_session rs on rs.restaurant_id = o.restaurant_id
 	where rs.token = token_input;
@@ -802,7 +823,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_restaurant_get_both`(token_input varchar(100), confirm_input bool, complete_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed ,convert(m.name using utf8), format(m.price,2) ,m.id as menu_id, o.id as order_id 
+	select o.is_complete as is_completed,
+	o.is_confirmed as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price ,
+	m.id as menu_id, 
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o ON o.id = omi.order_id inner join menu m on m.id = omi.menu_id 
 	inner join restaurant_session rs on rs.restaurant_id = o.restaurant_id
 	where rs.token = token_input and o.is_confirmed = confirm_input and o.is_complete = complete_input;
@@ -824,7 +850,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_restaurant_get_completed`(token_input varchar(100), complete_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed ,convert(m.name using utf8), format(m.price,2) ,m.id as menu_id, o.id as order_id 
+	select o.is_complete as is_completed,
+	o.is_confirmed as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price ,
+	m.id as menu_id, 
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o ON o.id = omi.order_id inner join menu m on m.id = omi.menu_id 
 	inner join restaurant_session rs on rs.restaurant_id = o.restaurant_id
 	where rs.token = token_input and o.is_complete = complete_input;
@@ -847,7 +878,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_restaurant_get_confirmed`(token_input varchar(100), confirm_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed ,convert(m.name using utf8), format(m.price,2) ,m.id as menu_id, o.id as order_id 
+	select o.is_complete as is_completed,
+	o.is_confirmed  as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price,
+	m.id as menu_id, 
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o ON o.id = omi.order_id inner join menu m on m.id = omi.menu_id 
 	inner join restaurant_session rs on rs.restaurant_id = o.restaurant_id
 	where rs.token = token_input and o.is_confirmed = confirm_input;
@@ -978,7 +1014,7 @@ BEGIN
 	from restaurant r where r.email = email_input and 
 	r.password = password(concat(password_input, (select salt from restaurant where email = email_input)));
 	
-	select rs.restaurant_id , convert (rs.token using utf8)
+	select rs.restaurant_id as restaurant_id, convert (rs.token using utf8) as token
 	from restaurant_session rs where rs.token = token_input;
 	commit;
 END ;;
@@ -1001,7 +1037,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `restaurant_logout`(token_input varc
     MODIFIES SQL DATA
 BEGIN
 	delete from restaurant_session where token = token_input;
-	SELECT row_count();
+	SELECT row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -1103,7 +1139,7 @@ BEGIN
 	insert into restaurant_session (restaurant_id, token)
 	values(last_insert_id(), token_input);
 
-	select rs.restaurant_id ,convert(rs.token using utf8)
+	select rs.restaurant_id as restaurant_id ,convert(rs.token using utf8) as token
 	from restaurant_session rs where rs.token = token_input;
 	commit;
 END ;;
@@ -1151,10 +1187,16 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `specific_restaurant`(id_input int unsigned)
 BEGIN
-	select convert(r.id using utf8),convert(r.name using utf8),
-	convert(r.address using utf8),convert(r.phone_num using utf8),
-	convert (r.bio using utf8),convert(r.city using utf8),convert(r.email using utf8),
-	convert (r.profile_url using utf8),convert(r.banner_url using utf8)
+	select 
+	convert(r.id using utf8) as restaurant_id,
+	convert(r.name using utf8) as name,
+	convert(r.address using utf8) as address,
+	convert(r.phone_num using utf8) as phone_num ,
+	convert (r.bio using utf8) as bio,
+	convert(r.city using utf8) as city ,
+	convert(r.email using utf8) as email,
+	convert (r.profile_url using utf8) as profile_url,
+	convert(r.banner_url using utf8) as banner_url
 	from restaurant r 
 	where r.id = id_input;
 END ;;
@@ -1173,4 +1215,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28 15:25:59
+-- Dump completed on 2022-10-28 16:28:25
