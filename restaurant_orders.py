@@ -160,11 +160,18 @@ def restaurant_patch():
     if(invalid != None):
         # if order_id is not sent then error will show up
         return make_response(json.dumps(invalid,default=str),400)
+    # saved the values just to make the checking easier for conditional
     is_confirmed = request.json.get('is_confirmed')
     is_completed = request.json.get('is_completed')
+    # if only is confirmed is sent then this statement will be true
     if(is_confirmed != None):
         return order_rest_patch_confirm()
+    # if only is completed is sent then this statement will be true
     elif(is_completed != None):
         return order_rest_patch_complete()
+    # if both sent then this statement will be true
+    elif(is_completed != None and is_confirmed != None):
+        return order_rest_patch_complete()
+
 
     

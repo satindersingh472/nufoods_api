@@ -501,5 +501,28 @@ Returns order based on data sent.modify the return by sending optional params
 ### `PATCH`
 
 Modify the order by sending true for is_confirmed and is_completed.
-if is_completed is sent true without sending is_confirmed true then order will be confirmed as well.
+The "true" value for is_confirmed will confirm the order. <br>
+The "true" value for is_completed will complete and confirm the order as well.
 
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+
+**Required Data**
+```
+{
+    order_id: (number)
+}
+```
+**Optional Data**
+```
+{
+    is_confirmed: "true" (will confirm the order),
+    is_completed: "true" (will complete the order and also confirm if not done before)
+}
+```
+<br>
+<br>
