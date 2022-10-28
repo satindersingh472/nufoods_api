@@ -288,6 +288,38 @@ it will also send back the restaurant id and token for signing in right after th
 ```
 <br>
 
+### `PATCH`  <br>
+
+Restaurant can edit the profile by sending a valid token as a headers and optional data to edit. <br>
+
+**Required Headers**  <br>
+```
+{
+    token: (string)
+}
+```
+**Optional Data** : Send one or more optional arguments to see any change. <br>
+```
+{
+    email: (string),
+    name: (string),
+    address: (string),
+    phone_number: (string),
+    bio: (string),
+    city: (string),
+    profile_url: (string),
+    banner_url: (string),
+    password: (string) 
+}
+
+```
+**Data Returned** <br>
+**On success** : "restaurant profile updated" <br>
+**On failure** : "restaurant profile not updated" or **any other error**  <br>
+
+
+<br>
+
 ### `DELETE`
 
 Deleted the existing restaurant with if token is given and password.<br>
