@@ -87,12 +87,14 @@ def menu_patch():
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
     menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
+    if(type(menu_item_details) != list or len(menu_item_details) == 0):
+        return make_response(json.dumps(menu_item_details,default=str),400)
     object = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
     results = conn_exe_close('call menu_patch(?,?,?,?,?,?)',
     [object['menu_id'],object['name'],object['price'],object['description'],object['image_url'],request.headers.get('token')])
-    if(type(results) == list and results[0][0] == 1):
+    if(type(results) == list):
         return make_response(json.dumps('menu is successfully updated',default=str),200)
-    elif(type(results) == list and results[0][0] == 0):
+    elif(type(results) != list):
         return make_response(json.dumps(f'menu not updated',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)
