@@ -122,6 +122,21 @@ def order_rest_patch_confirm():
         return make_response(json.dumps(results,default=str),500)
 
 
+def order_rest_patch_complete():
+    if(request.json['is_completed'] in ['true','True']):
+        data_one = 1
+    elif(request.json['is_completed'] in ['false','False']):
+        return make_response(json.dumps('not allowed',default=str),400)
+    results = conn_exe_close('call order_restaurant_patch_completed(?,?,?)',
+    [request.json['order_id'],data_one,request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] == 1 ):
+        return make_response(json.dumps('order completed',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('complete request failed or already completed',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
 def restaurant_patch():
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
@@ -133,5 +148,7 @@ def restaurant_patch():
     is_completed = request.json.get('is_completed')
     if(is_confirmed != None):
         return order_rest_patch_confirm()
+    elif(is_completed != None):
+        return order_rest_patch_complete()
 
     
