@@ -72,6 +72,8 @@ def conn_exe_close(statement,list):
     if(cursor == None):
         return 'Connection Error'
     results = execute_statement(cursor,statement,list)
+    if(cursor.description == None):
+        return results
     results = make_dictionary(results,cursor)
     close_connection(cursor)
     return results
