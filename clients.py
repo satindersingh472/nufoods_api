@@ -138,7 +138,18 @@ def client_patch_with_password():
     results = conn_exe_close('call client_get_with_token(?)',[request.headers['token']])
     if(type(results) != list or len(results) != 1):
         return make_response(json.dumps(results,default=str),400)
-    
+    salt = uuid4().hex
+    results = add_for_patch(request.json,['email','first_name','last_name','image_url','username'],results[0])
+    results = conn_exe_close('call client_patch_with_password(?,?,?,?,?,?,?,?)',
+    [results['username'],results['first_name'],results['last_name'],results['email'],
+    results['image_url'],request.json['password'],request.headers['token'],salt])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('client information updated',default=str),200)
+    elif(type(results) != list or results[0]['row_count'] == 0):
+        return make_response(json.dumps('client info not changed',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
 
 
 def client_patch_all():
