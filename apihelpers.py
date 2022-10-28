@@ -8,17 +8,10 @@ def verify_endpoints_info(sent_data,required_args):
 # will use this function to check the data sent for patch
 # if all arguments or data is not sent then it will append
 # data from the got_data array and we can use that to send a request
-def add_for_patch(sent_data,required_args,got_data):
-    count = 0
-    arguments = []
-    object = {}
+def add_for_patch(sent_data,required_args,original_data):
     for data in required_args:
-        if(sent_data.get(data) == None):
-            object[data] = got_data[count]
-        elif(sent_data.get(data) != None):
-            object[data] = sent_data.get(data)
-        count += 1
-    
-    return object
+        if(sent_data.get(data) != None):
+            original_data[data] = sent_data[data]
+    return original_data
 
               

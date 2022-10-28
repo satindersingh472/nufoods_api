@@ -341,6 +341,37 @@ Returns the id of newly added item.<br>
     id: (string)
 }
 ```
+<br>
+
+### `PATCH` <br>
+
+Menu item can be edited by a restaurant with a valid token and a valid menu_id
+
+**Required Headers**
+```
+{
+    token: (string)
+}
+```
+
+**Required Data**
+```
+{
+    menu_id: (number)
+}
+```
+**Optional data** 
+send optional 1 or more data arguments to change anything for the menu item
+```
+{
+    description: (string),
+    image_url: (string),
+    name: (string),
+    price: (number)
+}
+```
+<br>
+
 
 ### `DELETE` <br>
 

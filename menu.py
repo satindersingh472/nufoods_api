@@ -84,14 +84,16 @@ def menu_patch():
         return make_response(json.dumps(invalid_header,default=str),400)
     # menu_id is required so will check if it sent or not
     invalid = verify_endpoints_info(request.json,['menu_id'])
+    # if menu id is not sent then we will return the function with error because menu_id is required
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
+    # need to grab the details about the menu item before any update
     menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
     if(type(menu_item_details) != list or len(menu_item_details) == 0):
         return make_response(json.dumps(menu_item_details,default=str),400)
-    object = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
+    menu_item = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
     results = conn_exe_close('call menu_patch(?,?,?,?,?,?)',
-    [object['menu_id'],object['name'],object['price'],object['description'],object['image_url'],request.headers.get('token')])
+    [menu_item['menu_id'],menu_item['name'],menu_item['price'],menu_item['description'],menu_item['image_url'],request.headers.get('token')])
     if(type(results) == list):
         return make_response(json.dumps('menu is successfully updated',default=str),200)
     elif(type(results) != list):
