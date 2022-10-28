@@ -15,7 +15,7 @@ def client_post():
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
         # will make a request to get back the order id
-    order_post = conn_exe_close('call order_post(?,?)',[request.json.get('restaurant_id'),request.headers.get('token')])
+    order_post = conn_exe_close('call order_post(?,?)',[request.json['restaurant_id'],request.headers['token']])
     # use the order to post a menu
     if(type(order_post) == list and len(order_post) == 1):
         # menu items will be array that is sent with menu item ids
@@ -23,7 +23,7 @@ def client_post():
         # will loop through menu items and send a request for each menu item with id
         # by using order id and menu item id
         for menu_item in menu_items:
-            results = conn_exe_close('call orders_menus_post(?,?)',[order_post[0][0],menu_item])
+            results = conn_exe_close('call orders_menus_post(?,?)',[order_post[0]['order_id'],menu_item])
             # after the loop finishes it will show the results as id of the order posted
         if(type(results) == list):
             return make_response(json.dumps(results,default=str),200)
@@ -33,7 +33,7 @@ def client_post():
         else:
             # if there is any other error besides user input or database the server error will show up
             return make_response(json.dumps(results,default=str),500)
-    elif(type(order_post) == str):
+    elif(type(order_post) == str or len(order_post) != 1):
         # if order post not able to bring back the if of an order
         # then this result will be shown
         return make_response(json.dumps(order_post,default=str),400)
@@ -64,12 +64,12 @@ def order_confirmed():
     # will expect argument is_confirmed and check for value
     # if value is true then 1 is sent to the database
     # if value is false then 0 is sent to the database
-    if(request.args.get('is_confirmed') in ['true','True']):
+    if(request.args['is_confirmed'] in ['true','True']):
         data = 1
-    elif(request.args.get('is_confirmed') == 'False' or 'false'):
+    elif(request.args['is_confirmed'] in ['False' or 'false']):
         data = 0
         # will send the request with valid header and is_confirmed value
-    results = conn_exe_close('call order_confirmed(?,?)',[request.headers.get('token'),data])
+    results = conn_exe_close('call order_confirmed(?,?)',[request.headers['token'],data])
     if(type(results) == list):
         # if results is a list then following response will be shown
         return make_response(json.dumps(results,default=str),200)
@@ -81,11 +81,11 @@ def order_confirmed():
         return make_response(json.dumps(results,default=str),500)
 
 def order_completed():
-    if(request.args.get('is_completed') in ['true','True']):
+    if(request.args['is_completed'] in ['true','True']):
         data = 1
-    elif(request.args.get('is_completed') in ['false','False']):
+    elif(request.args['is_completed'] in ['false','False']):
         data = 0
-    results = conn_exe_close('call order_completed(?,?)',[request.headers.get('token'),data])
+    results = conn_exe_close('call order_completed(?,?)',[request.headers['token'],data])
     if(type(results) == list):
         # if results is a list then following response will be shown
         return make_response(json.dumps(results,default=str),200)
@@ -99,19 +99,19 @@ def order_completed():
     
 def order_complete_confirmed():
     # check if is complete is true and then if true data sent will be 1
-    if(request.args.get('is_completed') in ['true','True']):
+    if(request.args['is_completed'] in ['true','True']):
         data_one = 1
         # if false then data sent will be 0
-    elif(request.args.get('is_completed') in ['false','False']):
+    elif(request.args['is_completed'] in ['false','False']):
         data_one = 0
         # check if is confirmed is true and then data sent will be 1
-    if(request.args.get('is_confirmed') in ['true','True']):
+    if(request.args['is_confirmed'] in ['true','True']):
         data_two = 1
         # if false then data sent is 0
-    elif(request.args.get('is_confirmed') in ['false','False']):
+    elif(request.args['is_confirmed'] in ['false','False']):
         data_two = 0
         # send the request to the database
-    results = conn_exe_close('call order_complete_confirmed(?,?,?)',[request.headers.get('token'),data_one,data_two])
+    results = conn_exe_close('call order_complete_confirmed(?,?,?)',[request.headers['token'],data_one,data_two])
     if(type(results) == list):
         # if results is a list then following response will be shown
         return make_response(json.dumps(results,default=str),200)
