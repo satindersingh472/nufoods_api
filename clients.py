@@ -179,14 +179,20 @@ def client_patch_with_password():
         return make_response(json.dumps(results,default=str),500)
 
 
-
+# it will check the header and password
 def client_patch_all():
+    # if token is not sent as a header it will show an error
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
         return make_response(json.dumps(invalid_header,default=str),400)
+        # now it will check if the password is sent as request.json
+        # and call the function according to the condition
     invalid = verify_endpoints_info(request.json,['password'])
+    # if password is missing invalid will return something means it is not none and 
+    # condition will return the following function
     if(invalid != None):
         return client_patch()
+        # else it will return the function will help change the password as well
     elif(invalid == None):
         return client_patch_with_password()
     
