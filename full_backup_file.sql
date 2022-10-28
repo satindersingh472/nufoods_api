@@ -105,7 +105,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (46,'burger_two',6.99,'i am a burger_two','https://image_two.com',13,'2022-10-23 17:28:02'),(47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),(48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),(49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),(50,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(51,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(52,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:28'),(53,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:29'),(54,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(55,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(56,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(60,'crispy onion',2.99,'i am an onion','image of an onion',23,'2022-10-28 13:49:16'),(61,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:50:56'),(62,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:25'),(63,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:30'),(64,'fried and crispy onions',5.77,'i am an onion','https://imageofanonion.com',23,'2022-10-28 13:51:31');
+INSERT INTO `menu` VALUES (46,'burger_two',6.99,'i am a burger_two','https://image_two.com',13,'2022-10-23 17:28:02'),(47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),(48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),(49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),(50,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(51,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(52,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:28'),(53,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:29'),(54,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(55,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(56,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(60,'crispy onion',2.99,'i am an onion','image of an onion',23,'2022-10-28 13:49:16'),(61,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:50:56'),(62,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:25'),(63,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:30'),(64,'only fried onions',5.77,'i am an onion','https://imageofanonion.com',23,'2022-10-28 13:51:31');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `order` (
   KEY `order_FK_2` (`client_id`),
   CONSTRAINT `order_FK_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_FK_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (98,1,1,13,63,'2022-10-26 21:09:22'),(99,0,1,13,63,'2022-10-26 21:10:04'),(100,1,1,13,63,'2022-10-26 21:10:06'),(102,1,1,13,63,'2022-10-27 21:06:21'),(104,1,1,13,64,'2022-10-27 23:08:32');
+INSERT INTO `order` VALUES (98,1,1,13,63,'2022-10-26 21:09:22'),(99,0,1,13,63,'2022-10-26 21:10:04'),(100,1,1,13,63,'2022-10-26 21:10:06'),(102,1,1,13,63,'2022-10-27 21:06:21'),(104,1,1,13,64,'2022-10-27 23:08:32'),(105,0,0,23,65,'2022-10-28 14:20:14'),(106,0,0,23,65,'2022-10-28 14:21:50'),(107,0,0,23,65,'2022-10-28 14:27:54'),(108,0,0,23,65,'2022-10-28 14:33:18'),(109,0,0,23,65,'2022-10-28 14:34:05'),(110,0,0,23,65,'2022-10-28 14:35:04');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +157,7 @@ CREATE TABLE `order_menu_item` (
   KEY `order_menu_item_FK_1` (`order_id`),
   CONSTRAINT `order_menu_item_FK` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_menu_item_FK_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +166,7 @@ CREATE TABLE `order_menu_item` (
 
 LOCK TABLES `order_menu_item` WRITE;
 /*!40000 ALTER TABLE `order_menu_item` DISABLE KEYS */;
-INSERT INTO `order_menu_item` VALUES (123,98,51),(124,98,52),(125,98,53),(126,98,54),(127,99,51),(128,99,52),(129,99,53),(130,99,54),(131,100,51),(132,100,52),(133,100,53),(134,100,54);
+INSERT INTO `order_menu_item` VALUES (123,98,51),(124,98,52),(125,98,53),(126,98,54),(127,99,51),(128,99,52),(129,99,53),(130,99,54),(131,100,51),(132,100,52),(133,100,53),(134,100,54),(135,107,64),(136,107,63),(137,107,63),(138,108,64),(139,108,63),(140,108,63),(141,109,64),(142,109,63),(143,109,63),(144,110,64),(145,110,63),(146,110,63);
 /*!40000 ALTER TABLE `order_menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,7 +588,6 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `menu_specific_id`(id_input int unsigned, token_input varchar(100))
 BEGIN
 	SELECT
-	convert(m.id using utf8) as menu_id,
 	convert (m.name using utf8) as name,
 	convert (m.price using utf8) as price, 
 	convert(m.description using utf8) as description ,
@@ -644,7 +643,7 @@ BEGIN
 	insert into order_menu_item (order_id, menu_id)
 	values(order_id_input, menu_id_input);
 
-	SELECT omi.order_id 
+	SELECT omi.order_id as order_id
 	from order_menu_item omi where omi.order_id = order_id_input
 	group by omi.order_id;
 	commit;
@@ -666,7 +665,13 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `order_completed`(token_input varchar(100),complete_input bool)
 BEGIN
-	select o.is_complete , o.is_confirmed,convert(m.name using utf8) ,format(m.price,2) ,m.id as menu_id ,o.id as order_id 
+	select 
+	o.is_complete as is_completed, 
+	o.is_confirmed as is_confirmed,
+	convert(m.name using utf8) as name,
+	format(m.price,2) as price,
+	m.id as menu_id ,
+	o.id as order_id 
 	from order_menu_item omi inner join `order` o on o.id = omi.order_id inner join menu m on m.id = omi.menu_id inner join client_session cs on cs.client_id  = o.client_id 
 	where cs.token = token_input and o.is_complete = complete_input;
 END ;;
@@ -755,7 +760,7 @@ BEGIN
 	insert into `order`(restaurant_id,client_id)
 	select   restaurant_id_input, cs.client_id 
 	from client_session cs where cs.token = token_input;
-	SELECT LAST_INSERT_ID(); 
+	SELECT LAST_INSERT_ID() as order_id; 
 	commit;
 END ;;
 DELIMITER ;
@@ -1168,4 +1173,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28 14:05:57
+-- Dump completed on 2022-10-28 15:25:59
