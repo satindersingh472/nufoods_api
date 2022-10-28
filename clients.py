@@ -32,12 +32,12 @@ def client_logout():
         return make_response(json.dumps(invalid_headers,default=str),400)
     # will send the request to delete the token from the database
     results = conn_exe_close('call client_logout(?)',[request.headers.get('token')])
-    if(type(results) == list and results[0][0] == 1):
+    if(type(results) == list and results[0]['row_count'] == 1):
         # if token deleted from database then the row count will be sent back
         # if result is a list and result[0][0] == 1 then it has deleted the token 
         return make_response(json.dumps('successfully logged out',default=str),200)
         # if token is not deleted it will send 0 length of results which
-    elif(type(results) == list and results[0][0] == 0):
+    elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('logout not successfull or already logged out',default=str),400)
     else:
         return make_response(json.dumps(results,default=str),500)

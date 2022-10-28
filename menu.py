@@ -41,7 +41,7 @@ def menu_post():
     request.json.get('image_url'),request.headers.get('token')])
     # if item added it will return the menu item id
     if(type(results)==list and len(results) == 1):
-        return make_response(json.dumps(results[0][0],default=str),200)
+        return make_response(json.dumps(results[0]['row_count'],default=str),200)
         # if item not added then the list will be returned with lenght 0
     elif(type(results) == list and len(results) == 0):
         # if not then error message will appear
@@ -68,10 +68,10 @@ def menu_delete():
     results = conn_exe_close('call menu_delete(?,?)',
     [request.json.get('menu_id'),request.headers.get('token')])
     # the procedure sends back the row count and if it is 1 then something is deleted
-    if(type(results) == list and results[0][0] == 1):
+    if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('menu item deleted',default=str),200)
         # if not one or 0 then menu item is not deleted
-    elif(type(results) == list and results[0][0] == 0):
+    elif(type(results) == list and results[0]['row_count'] == 0):
         return make_response(json.dumps('menu item not exists or user is not authorized',default=str),400)
     else:
         # if server error then it will show the following message
@@ -88,16 +88,16 @@ def menu_patch():
     if(invalid != None):
         return make_response(json.dumps(invalid,default=str),400)
     # need to grab the details about the menu item before any update
-    menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
+    menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json['menu_id'],request.headers['token']])
     # if menu_item_details gives back list and len is zero then function will return an error and dont proceed
     if(type(menu_item_details) != list or len(menu_item_details) == 0):
         return make_response(json.dumps(menu_item_details,default=str),400)
     # after getting details will call add for patch function to add original data to the request if everything is not sent
-    menu_item = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
+    menu_item = add_for_patch(request.json,['name','price','description','image_url'],menu_item_details[0])
     # after editing the original data we will send the arguments the user wants to change and some original one as well
     # if not sent by the user just so that our stored procedure works fine with inputs
     results = conn_exe_close('call menu_patch(?,?,?,?,?,?)',
-    [menu_item['menu_id'],menu_item['name'],menu_item['price'],menu_item['description'],menu_item['image_url'],request.headers.get('token')])
+    [request.json['menu_id'],menu_item['name'],menu_item['price'],menu_item['description'],menu_item['image_url'],request.headers.get('token')])
     if(type(results) == list):
         return make_response(json.dumps('menu is successfully updated',default=str),200)
     elif(type(results) != list):

@@ -65,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `menu_FK` (`restaurant_id`),
   CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (46,'burger_two',6.99,'i am a burger_two','https://image_two.com',13,'2022-10-23 17:28:02'),(47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),(48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),(49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),(50,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(51,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(52,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:28'),(53,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:29'),(54,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(55,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(56,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30');
+INSERT INTO `menu` VALUES (46,'burger_two',6.99,'i am a burger_two','https://image_two.com',13,'2022-10-23 17:28:02'),(47,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:20'),(48,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:23'),(49,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:26'),(50,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(51,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:27'),(52,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:28'),(53,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:29'),(54,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(55,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(56,'bagel',2.99,'i am a bagel','I am a image',13,'2022-10-23 17:28:30'),(60,'crispy onion',2.99,'i am an onion','image of an onion',23,'2022-10-28 13:49:16'),(61,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:50:56'),(62,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:25'),(63,'fried onion',4.99,'i am an onion','image of an onion',23,'2022-10-28 13:51:30'),(64,'fried and crispy onions',5.77,'i am an onion','https://imageofanonion.com',23,'2022-10-28 13:51:31');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,7 +416,7 @@ BEGIN
 	select c.id , token_input
 	from client c where c.email = email_input and c.password = password(concat(password_input,(select salt from client where email = email_input)));
 
-	select cs.client_id , convert(cs.token using utf8)
+	select cs.client_id as client_id, convert(cs.token using utf8) as token
 	from client_session cs where cs.token = token_input;
 	commit;
 END ;;
@@ -439,7 +439,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `client_logout`(token_input varchar(
     MODIFIES SQL DATA
 BEGIN
 	delete from client_session where token = token_input;
-	select row_count();
+	select row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -499,26 +499,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `client_token_id` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `client_token_id`(token_input varchar(100))
-BEGIN
-	SELECT cs.client_id, count(cs.client_id)
-	from client_session cs where cs.token = token_input;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `menu_delete` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -535,7 +515,7 @@ BEGIN
 	delete m
 	from menu m inner join restaurant_session rs on rs.restaurant_id = m.restaurant_id
 	where rs.token = token_input and m.id = id_input;
-	SELECT row_count();
+	SELECT row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -561,7 +541,7 @@ BEGIN
 	set m.name = name_input, m.price = price_input, m.description = description_input, m.image_url = image_url_input
 	where rs.token = token_input and m.id = id_input;
 	
-	select row_count();
+	select row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -586,7 +566,7 @@ BEGIN
 	select name_input, price_input, description_input, image_url_input,rs.restaurant_id  
 	from restaurant_session rs where rs.token = token_input;
 
-	select LAST_INSERT_ID()
+	select LAST_INSERT_ID() as row_count
 	from menu m where m.created_at = NOW(); 
 	commit;
 END ;;
@@ -607,9 +587,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `menu_specific_id`(id_input int unsigned, token_input varchar(100))
 BEGIN
-	SELECT convert(m.id using utf8),convert (m.name using utf8),
-	convert (m.price using utf8), convert(m.description using utf8),
-	convert(m.image_url using utf8)
+	SELECT
+	convert(m.id using utf8) as menu_id,
+	convert (m.name using utf8) as name,
+	convert (m.price using utf8) as price, 
+	convert(m.description using utf8) as description ,
+	convert(m.image_url using utf8) as image_url
 	from menu m inner join restaurant_session rs on rs.restaurant_id = m.restaurant_id
 	where rs.token = token_input and m.id = id_input;
 END ;;
@@ -1185,4 +1168,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28 13:23:25
+-- Dump completed on 2022-10-28 14:05:57
