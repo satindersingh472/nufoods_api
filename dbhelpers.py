@@ -71,7 +71,15 @@ def conn_exe_close(statement,list):
     cursor = connect_db()
     if(cursor == None):
         return 'Connection Error'
-    result = execute_statement(cursor,statement,list)
+    results = execute_statement(cursor,statement,list)
+    results = make_dictionary(results,cursor)
     close_connection(cursor)
-    return result
+    return results
 
+
+def make_dictionary(results,cursor):
+    columns = [i[0] for i in cursor.description]
+    new_results = []
+    for row in results:
+        new_results.append(dict(zip(columns,row)))
+    return new_results

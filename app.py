@@ -7,7 +7,7 @@ from clients import client_login,client_logout,specific_client,add_client,client
 from restaurants import  restaurant_login,restaurant_logout,all_restaurants,specific_restaurant,restaurant_post,restaurant_delete
 from menu import all_menu,menu_delete,menu_post,menu_patch
 from client_orders import client_post,client_get
-from restaurant_orders import restaurant_get
+from restaurant_orders import restaurant_get,restaurant_patch
 
 app = Flask(__name__)
 
@@ -88,6 +88,11 @@ def use_restaurant_delete():
 @app.get('/api/restaurant_order')
 def use_restaurant_get():
     return restaurant_get()
+
+@app.patch('/api/restaurant_order')
+def use_restaurant_patch():
+    return restaurant_patch()
+
 
 # -----------------------------------------------------------------------------------------------------------------------
 @app.get('/api/menu')

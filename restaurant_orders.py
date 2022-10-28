@@ -107,3 +107,31 @@ def restaurant_get():
 
 # ----------------------------------------------------------------------------------------------------------------------------
 
+def order_rest_patch_confirm():
+    if(request.json.get('is_confirmed') in ['true','True']):
+        data_one = 1
+    elif(request.json.get('is_confirmed') in ['false','False']):
+        return make_response(json.dumps('not allowed',default=str),400)
+    results = conn_exe_close('call order_restaurant_patch_confirmed(?,?,?)',
+    [request.json.get('order_id'),data_one,request.headers.get('token')])
+    if(type(results) == list and results[0]['row_count'] == 1 ):
+        return make_response(json.dumps('order confirmed',default=str),200)
+    elif(type(results) == list and results[0]['row_count'] == 0):
+        return make_response(json.dumps('not confirmed or already confirmed',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)
+
+
+def restaurant_patch():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json,['order_id'])
+    if(invalid != None):
+        return make_response(json.dumps(invalid,default=str),400)
+    is_confirmed = request.json.get('is_confirmed')
+    is_completed = request.json.get('is_completed')
+    if(is_confirmed != None):
+        return order_rest_patch_confirm()
+
+    
