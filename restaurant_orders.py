@@ -103,3 +103,7 @@ def restaurant_get():
         # if is completed is sent then the following statement will be true
     elif(is_completed != None and is_confirmed == None):
         return order_restaurant_get_completed()
+
+
+# ----------------------------------------------------------------------------------------------------------------------------
+
