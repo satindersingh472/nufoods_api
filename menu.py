@@ -89,9 +89,13 @@ def menu_patch():
         return make_response(json.dumps(invalid,default=str),400)
     # need to grab the details about the menu item before any update
     menu_item_details = conn_exe_close('call menu_specific_id(?,?)',[request.json.get('menu_id'),request.headers.get('token')])
+    # if menu_item_details gives back list and len is zero then function will return an error and dont proceed
     if(type(menu_item_details) != list or len(menu_item_details) == 0):
         return make_response(json.dumps(menu_item_details,default=str),400)
+    # after getting details will call add for patch function to add original data to the request if everything is not sent
     menu_item = add_for_patch(request.json,['menu_id','name','price','description','image_url'],menu_item_details[0])
+    # after editing the original data we will send the arguments the user wants to change and some original one as well
+    # if not sent by the user just so that our stored procedure works fine with inputs
     results = conn_exe_close('call menu_patch(?,?,?,?,?,?)',
     [menu_item['menu_id'],menu_item['name'],menu_item['price'],menu_item['description'],menu_item['image_url'],request.headers.get('token')])
     if(type(results) == list):
