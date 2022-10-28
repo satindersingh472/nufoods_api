@@ -3,7 +3,7 @@ from unittest import makeSuite
 from flask import request,make_response
 from uuid import uuid4
 from dbhelpers import conn_exe_close
-from apihelpers import verify_endpoints_info
+from apihelpers import add_for_patch, verify_endpoints_info
 
 
 # will login the restaurant and return the id and token for the restaurant
@@ -136,3 +136,32 @@ def restaurant_delete():
     else:
         # if server error then error 500 is shown
         return make_response(json.dumps(results,default=str),500)
+
+
+def restaurant_patch():
+    # will bring back the restaurant details with token
+    results = conn_exe_close('call restaurant_get_with_token(?)',[request.headers['token']])
+    if(type(results) != list or len(results) != 1):
+        # if results are not list and length 1 then return the function
+        return make_response(json.dumps(results,default=str),400)
+    # if results is a list of dict with len 1 then send the required arguments to the add for patch
+    # to over write the data that inside original dict that we got from before has been sent by user
+    results = add_for_patch(request.json,['name','address','phone_num','bio','email','city','profile_url','banner_url'],results[0])
+    results = conn_exe_close('call restaurant_patch(?,?,?,?,?,?,?,?,?)',
+    [results['name'],results['address'],results['phone_num'],results['bio'],results['city'],results['email'],
+    results['profile_url'],results['banner_url'],request.headers['token']])
+    if(type(results) == list and results[0]['row_count'] == 1):
+        return make_response(json.dumps('restaurant profile updated',default=str),200)
+    elif(type(results) != list or results[0]['row_count'] != 1):
+        return make_response(json.dumps('restaurant profile not updated',default=str),400)
+    else:
+        return make_response(json.dumps(results,default=str),500)  
+    
+
+
+def restaurant_patch_all():
+    invalid_header = verify_endpoints_info(request.headers,['token'])
+    if(invalid_header != None):
+        return make_response(json.dumps(invalid_header,default=str),400)
+    invalid = verify_endpoints_info(request.json,['password'])
+    if(invalid != None):
