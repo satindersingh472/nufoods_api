@@ -116,16 +116,23 @@ def restaurant_post():
 # DELETE restaurant
 # this will delete the restaurant with the given token as a header and restaurant id as a data
 def restaurant_delete():
+    # will check for header is sent or no
     invalid_header = verify_endpoints_info(request.headers,['token'])
     if(invalid_header != None):
+        # if not sent then error will show up with code 400
         return make_response(json.dumps(invalid_header,default=str),400)
+        # will check for password if sent or not either correct or incorrect
     invalid = verify_endpoints_info(request.json,['password'])
     if(invalid != None):
-        return make_response(json.dumps(invalid,default=str),400)
-    results = conn_exe_close('call restaurant_delete(?,?)',[request.json.get('password'),request.headers.get('token')])
-    if(type(results) == list and results[0][0] == 1):
+        return make_response(json.dumps('password is required',default=str),400)
+    # make a request to delete the restaurant by sending the password and header
+    results = conn_exe_close('call restaurant_delete(?,?)',[request.json['password'],request.headers['token']])
+    if(type(results) == list):
+        # if response is list then following message is displayed
         return make_response(json.dumps('restaurant deleted successfully',default=str),200)
     elif(type(results) == list and results[0][0] == 0):
+        # if response row count is 0 then no restaurant deleted
         return make_response(json.dumps('no restaurant deleted',default=str),400)
     else:
+        # if server error then error 500 is shown
         return make_response(json.dumps(results,default=str),500)

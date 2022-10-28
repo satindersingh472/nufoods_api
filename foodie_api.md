@@ -500,6 +500,8 @@ Returns order based on data sent.modify the return by sending optional params
 
 ### `PATCH`
 
+
+Restaurant must be logged in to provide a valid token.
 Modify the order by sending true for is_confirmed and is_completed.
 The "true" value for is_confirmed will confirm the order. <br>
 The "true" value for is_completed will complete and confirm the order as well.
