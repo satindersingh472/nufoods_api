@@ -108,10 +108,10 @@ def client_delete():
     results = conn_exe_close('call client_delete(?,?)',[request.json.get('password'),request.headers.get('token')])
     # if results is in list form and it sends 1 back means number of rows updated is 1
     # then this means that client is deleted successfully
-    if( type(results) == list and results[0][0] == 1):
+    if( type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('client deleted successfully',default=str),200)
         # if result is an empty list then client is not deleted may be password is wrong
-    elif( type(results)== list and results[0][0] == 0):
+    elif( type(results)== list and results[0]['row_count'] == 0):
         return make_response(json.dumps('no client deleted',default=str),400)
     elif(type(results) != list):
         return make_response(json.dumps(results,default=str),400)
@@ -140,10 +140,10 @@ def client_patch():
     [results['username'],results['first_name'],results['last_name'],results['email'],results['image_url'],request.headers['token']])
     # if row gets changed in any way the database will return the row_count 1 and this statement will become true
     if(type(results) == list and results[0]['row_count'] == 1):
-        return make_response(json.dumps('client information updated',default=str),200)
+        return make_response(json.dumps('client profile updated',default=str),200)
         # if not changed anything the following statement will become true
     elif(type(results) != list or results[0]['row_count'] == 0):
-        return make_response(json.dumps('client info not changed',default=str),400)
+        return make_response(json.dumps('client profile not changed',default=str),400)
     else:
         # if there is any other error beyond user then this statement will be true
         return make_response(json.dumps(results,default=str),500)
@@ -170,10 +170,10 @@ def client_patch_with_password():
     results['image_url'],request.json['password'],request.headers['token'],salt])
     # if update is successfull then client will get a message
     if(type(results) == list and results[0]['row_count'] == 1):
-        return make_response(json.dumps('client information updated',default=str),200)
+        return make_response(json.dumps('client profile updated',default=str),200)
         # if not successfull then this message will be sent
     elif(type(results) != list or results[0]['row_count'] == 0):
-        return make_response(json.dumps('client info not changed',default=str),400)
+        return make_response(json.dumps('client profile not changed',default=str),400)
     else:
         # if error is not created by user then following statement will become true
         return make_response(json.dumps(results,default=str),500)

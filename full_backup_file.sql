@@ -45,7 +45,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (63,'nu','nuhaar_one','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*72EF3496A0E953E4DB89D064AA5B287DEA581AA7','salt_123456'),(64,'jag_one','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*29DE876DFC0FA7DB5E5BB76DD037A22766CD0327','salt_jag'),(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca');
+INSERT INTO `client` VALUES (63,'nu','nuhaar_one','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*72EF3496A0E953E4DB89D064AA5B287DEA581AA7','salt_123456'),(64,'jag_two','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*73F60761B10927F1550C70ED10DE5477D5309BEC','02f70359a68947fca23f204fd2edff57'),(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES (32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),(46,'token_jag',64,'2022-10-23 04:41:10'),(47,'token_jag_one',64,'2022-10-23 04:43:50'),(48,'7a095d612e584ef3a1af5b45b1e8694e',65,'2022-10-27 23:02:55'),(49,'token_for_nuhar',63,'2022-10-28 00:27:18'),(50,'token_for_nuhar_one',63,'2022-10-28 00:28:08'),(52,'token_for_nuhar_two',63,'2022-10-28 00:53:38'),(53,'token_for_nuhar_three',63,'2022-10-28 01:09:07');
+INSERT INTO `client_session` VALUES (32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),(46,'token_jag',64,'2022-10-23 04:41:10'),(47,'token_jag_one',64,'2022-10-23 04:43:50'),(48,'7a095d612e584ef3a1af5b45b1e8694e',65,'2022-10-27 23:02:55'),(49,'token_for_nuhar',63,'2022-10-28 00:27:18'),(50,'token_for_nuhar_one',63,'2022-10-28 00:28:08'),(52,'token_for_nuhar_two',63,'2022-10-28 00:53:38'),(53,'token_for_nuhar_three',63,'2022-10-28 01:09:07'),(55,'5d53f2c90d9241b0a57e0afd5c526452',64,'2022-10-28 02:01:07');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +258,7 @@ BEGIN
 	insert into client_session (client_id,token)
 	values( last_insert_id(), token_input);
 	
-	SELECT cs.client_id, convert(cs.token using utf8) 
+	SELECT cs.client_id as client_id, convert(cs.token using utf8) as token 
 	from client_session cs where token = token_input;
 	commit;
 END ;;
@@ -279,9 +279,14 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `all_clients`()
 BEGIN
-	SELECT  convert(c.id using utf8), convert(c.first_name using utf8),
-	convert(c.last_name using utf8), convert (c.email using utf8),convert (c.created_at using utf8),
-	convert (c.image_url using utf8),convert (c.username using utf8)
+	SELECT
+	convert(c.id using utf8) as client_id,
+	convert(c.first_name using utf8) as first_name,
+	convert(c.last_name using utf8) as last_name,
+	convert (c.email using utf8) as email,
+	convert (c.created_at using utf8) as created_at,
+	convert (c.image_url using utf8) as image_url,
+	convert (c.username using utf8) as username
 	from client c;
 END ;;
 DELIMITER ;
@@ -301,9 +306,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `all_menu`(id_input int unsigned)
 BEGIN
-	SELECT convert(m.id using utf8),convert (m.name using utf8),
-	convert (m.price using utf8), convert(m.description using utf8),
-	convert(m.image_url using utf8)
+	SELECT 
+	convert(m.id using utf8) as menu_id,
+	convert (m.name using utf8) as name,
+	convert (m.price using utf8) as price,
+	convert(m.description using utf8) as description ,
+	convert(m.image_url using utf8) as image_url
 	from menu m
 	where m.restaurant_id  = id_input;
 END ;;
@@ -324,9 +332,16 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `all_restaurants`()
 BEGIN
-	SELECT convert(r.id using utf8),convert(r.name using utf8),convert(r.address using utf8),
-	convert(r.phone_num using utf8),convert(r.bio using utf8),convert(r.city using utf8),
-	convert(r.email using utf8),convert(r.profile_url using utf8),convert(r.banner_url using utf8)
+	SELECT
+	convert(r.id using utf8) as restaurant_id,
+	convert(r.name using utf8) as name,
+	convert(r.address using utf8) as address,
+	convert(r.phone_num using utf8) as phone_num ,
+	convert(r.bio using utf8) as bio,
+	convert(r.city using utf8) as city,
+	convert(r.email using utf8) as email,
+	convert(r.profile_url using utf8) as profile_url ,
+	convert(r.banner_url using utf8) as banner_url 
 	from restaurant r;
 END ;;
 DELIMITER ;
@@ -350,7 +365,7 @@ BEGIN
 	delete c
 	from client c inner join client_session cs on cs.client_id = c.id 
 	where cs.token = token_input and c.password = password (concat(password_input, (select salt where cs.token = token_input)));
-	select row_count();
+	select row_count() as row_count;
 	commit;
 END ;;
 DELIMITER ;
@@ -1018,9 +1033,13 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `specific_client`(id_input int unsigned)
 BEGIN
-	SELECT  convert(c.id using utf8), convert(c.first_name using utf8),
-	convert(c.last_name using utf8), convert (c.email using utf8),
-	convert (c.image_url using utf8),convert (c.username using utf8)
+	SELECT 
+	c.id as client_id, 
+	convert(c.first_name using utf8) as first_name,
+	convert(c.last_name using utf8) as last_name, 
+	convert (c.email using utf8) as email,
+	convert (c.image_url using utf8) as image_url,
+	convert (c.username using utf8) as username
 	from client c
 	where c.id = id_input;
 END ;;
@@ -1063,4 +1082,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28  1:43:33
+-- Dump completed on 2022-10-28  3:15:19

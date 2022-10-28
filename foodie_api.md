@@ -105,6 +105,34 @@ Creates a new client and returns back the id and token of client added.
 ```
 <br>
 
+### `PATCH`
+
+A client can edit its profile with a valid token. <br>
+
+**Required Headers** <br>
+```
+{
+    token: (string)
+}
+```
+
+**Optional Data** : send **1** or more data arguments to make changes to the profile
+```
+{
+    email: (string),
+    first_name: (string),
+    last_name: (string),
+    image_url: (string),
+    username: (string),
+    password: (string)
+}
+```
+**Data Returned**  <br>
+**On success** : "client profile updated" <br>
+**On failure** : "client profile not changed" or **any other error**. <br>
+
+<br>
+
 ### `DELETE`
 
 Deletes the existing client with token sent as header and password sent as required data
