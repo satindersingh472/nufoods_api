@@ -119,18 +119,33 @@ def client_delete():
         return make_response(json.dumps(results,default=str),500)
 
 
+#patch endpoint has been done in two steps
+# if user sends password it will use client_patch_with_password function 
+# other wise it use client_patch
+# they both are the same but with little difference in store procedure to which the request is sent to update
+# in that request the store procedure is expecting couple of extra arguments like password and salt. 
+
+# this will work for client patch without password
 def client_patch():
+    # will grab the client from db to use for adding missing arguments purpose
     results = conn_exe_close('call client_get_with_token(?)',[request.headers['token']])
+    # if results does not come back as expected then it will return the function
     if(type(results) != list or len(results) != 1):
         return make_response(json.dumps(results,default=str),400)
+    # will send the request type of arguments, required_arguments, and results got from the previous request
+    # asking for details to fullfill missing arguments
     results = add_for_patch(request.json,['email','first_name','last_name','image_url','username'],results[0])
+    # we can use the original arguments from database to send them with the request 
     results = conn_exe_close('call client_patch(?,?,?,?,?,?)',
     [results['username'],results['first_name'],results['last_name'],results['email'],results['image_url'],request.headers['token']])
+    # if row gets changed in any way the database will return the row_count 1 and this statement will become true
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('client information updated',default=str),200)
+        # if not changed anything the following statement will become true
     elif(type(results) != list or results[0]['row_count'] == 0):
         return make_response(json.dumps('client info not changed',default=str),400)
     else:
+        # if there is any other error beyond user then this statement will be true
         return make_response(json.dumps(results,default=str),500)
 
 
