@@ -14,10 +14,10 @@ def client_login():
     # if given the params will continue and generate the token for procedure 
     token = uuid4().hex
     results = conn_exe_close('call client_login(?,?,?)',
-    [request.json.get('email'),request.json.get('password'),token])
+    [request.json['email'],request.json['password'],token])
     # the procedure will return the results with id and token and the tuple must be of length 1
     if(type(results) == list and len(results) == 1):
-        return make_response(json.dumps(results,default=str),200)
+        return make_response(json.dumps(results[0],default=str),200)
     elif(type(results) == list and len(results) != 1):
         return make_response(json.dumps('username or password is not valid',default=str),400)
     else:
