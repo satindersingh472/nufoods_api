@@ -1,7 +1,7 @@
 from dbhelpers import conn_exe_close 
 import json
 from flask import request,make_response
-from apihelpers import verify_endpoints_info,add_for_patch
+from apihelpers import verify_endpoints_info,add_for_patch,constraint_password
 from uuid import uuid4
 
 # '/api/client_login' start from here for 2 different methods post and delete 
@@ -198,5 +198,8 @@ def client_patch_all():
         return client_patch()
         # else it will return the function will help change the password as well
     elif(invalid == None):
+        constraint = constraint_password(request.json['password'])
+        if(constraint != None):
+            return make_response(json.dumps(constraint,default=str),400)
         return client_patch_with_password()
     

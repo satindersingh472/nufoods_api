@@ -5,6 +5,11 @@ def verify_endpoints_info(sent_data,required_args):
         if(sent_data.get(data) == None):
             return f'The {data} argument is required'
 
+def constraint_password(password):
+    if(len(password) < 8):
+        return f'length of password: {password} should be 8 or more.'
+
+    
 # will use this function to check the data sent for patch
 # if all arguments or data is not sent then it will append
 # data from the got_data array and we can use that to send a request
