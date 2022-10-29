@@ -3,7 +3,7 @@ from unittest import makeSuite
 from flask import request,make_response
 from uuid import uuid4
 from dbhelpers import conn_exe_close
-from apihelpers import add_for_patch, verify_endpoints_info
+from apihelpers import add_for_patch, verify_endpoints_info,constraint_password
 
 
 # will login the restaurant and return the id and token for the restaurant
@@ -95,6 +95,9 @@ def restaurant_post():
         # if not then return the error
         return make_response(json.dumps(invalid,default=str),400)
     # if everything is sent will grab a token and salt for authentication purposes
+    constraint = constraint_password(request.json['password'])
+    if(constraint != None):
+        return make_response(json.dumps(constraint,default=str),400)
     token = uuid4().hex
     salt = uuid4().hex
     # will call the procedure to send data to the database
@@ -212,4 +215,5 @@ def restaurant_patch_all():
     if(invalid != None):
         return restaurant_patch()
     elif(invalid == None):
+        constraint = constraint_password(json.dumps(constraint,default=str),400)
         return restaurant_patch_with_password()

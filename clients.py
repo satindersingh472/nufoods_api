@@ -76,6 +76,9 @@ def add_client():
         return make_response(json.dumps(invalid,default=str),400)
         # if sent then it will generate a token and send it along with
         # other data params to the stored procedure
+    constraint = constraint_password(request.json['password'])
+    if(constraint != None):
+        return make_response(json.dumps(constraint,default=str),400)
     token = uuid4().hex
     salt = uuid4().hex
     # token will be sent along with other arguments to run the store procedure
