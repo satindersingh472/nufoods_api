@@ -36,7 +36,7 @@ CREATE TABLE `client` (
   UNIQUE KEY `client_UN_email` (`email`),
   CONSTRAINT `client_CHECK_email` CHECK (`email` like '%@%' and `email` like '%.%'),
   CONSTRAINT `client_password_length_greater_than_10` CHECK (octet_length(`password`) >= 10)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,9 +46,15 @@ CREATE TABLE `client` (
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
 INSERT INTO `client` VALUES
-(63,'nu','nuhaar_one','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*72EF3496A0E953E4DB89D064AA5B287DEA581AA7','salt_123456'),
+(63,'nu','^','kaur','nuhar_123@email.com','2022-10-22','https://nuhaarimg.com','*72EF3496A0E953E4DB89D064AA5B287DEA581AA7','salt_123456'),
 (64,'jag_two','singh','last_one','jag@email.com','2022-10-23','hjdksldakcdahbkldancakdhncdac','*73F60761B10927F1550C70ED10DE5477D5309BEC','02f70359a68947fca23f204fd2edff57'),
-(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca');
+(65,'sam123','sam_name','sam_last_name','sam@email.com','2022-10-27','http://123456','*11FCF0DB58B03AF3A69B3C0E76819243D8BDD7A2','d02a3f1a9fae49d8a77eac6527b5b8ca'),
+(66,'satinder123','satinder','singh','satinder@email.com','2022-10-28','https://image.com','*A90FBB25C9294AC5FA24D4EB2F7C97A70ADA3333','3b55d60d443e421e8df97cd04ebca43c'),
+(69,'add','vfvfv','vfvfv','v@email.com','2022-10-28','jckdscdckdsjl','*94CBE3610260E7FB089570C862BFE86D39799B19','1e4d68688c164e4dae76436a4940a19d'),
+(70,'sat','sss','ssksk','new@email.com','2022-10-28','123456','*6049AD2C2A6714FB77B022A63BB5F8906748DBBC','102ab3f9c1ad4512b8a0ca174a166831'),
+(71,'hhh','sssss','ccc','day@email.com','2022-10-28','123456','*2CC16FD01E3733D967B378FB1B0592EE2E65F27B','0521b4ddac1d43f3b719cab58c429d88'),
+(72,'cdcd','cdcdc','cdcdc','y@email.com','2022-10-28','123456','*FEA105E79E70A225D9C987A8C4BA0D2FE0FDFEBE','858f60b5c2ca4a26bd87ab8ad0a2b1b3'),
+(109,'sample','sample','sample_last','sample@email.com','2022-10-29','https://sample.com','*3841458B4165A4EDD51649BB64798ACB71D0AE99','a5afb4f5dfce4f9083863735fc84ae30');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +74,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,23 +83,6 @@ CREATE TABLE `client_session` (
 
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
-INSERT INTO `client_session` VALUES
-(32,'token_nuhaar_one',63,'2022-10-22 15:41:03'),
-(36,'token_nuhaar_three',63,'2022-10-22 15:44:12'),
-(39,'token_nuhaar_four',63,'2022-10-22 15:44:52'),
-(40,'eb88e7f3788147f58b45ca555ebbd9a1',63,'2022-10-22 16:00:31'),
-(42,'5e0d2228c5d84ab49bf4a1e47029e795',63,'2022-10-22 16:01:17'),
-(43,'ff5684d72e1a48c19204066c2d4136f2',63,'2022-10-22 16:19:25'),
-(44,'token_nuhaar_five',63,'2022-10-22 16:36:11'),
-(45,'token_nuhaar_six',63,'2022-10-23 04:35:46'),
-(46,'token_jag',64,'2022-10-23 04:41:10'),
-(47,'token_jag_one',64,'2022-10-23 04:43:50'),
-(48,'7a095d612e584ef3a1af5b45b1e8694e',65,'2022-10-27 23:02:55'),
-(49,'token_for_nuhar',63,'2022-10-28 00:27:18'),
-(50,'token_for_nuhar_one',63,'2022-10-28 00:28:08'),
-(52,'token_for_nuhar_two',63,'2022-10-28 00:53:38'),
-(53,'token_for_nuhar_three',63,'2022-10-28 01:09:07'),
-(55,'5d53f2c90d9241b0a57e0afd5c526452',64,'2022-10-28 02:01:07');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1273,4 +1262,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-28 20:35:48
+-- Dump completed on 2022-10-29  7:54:00
