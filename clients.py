@@ -83,10 +83,13 @@ def add_client():
     request.json.get('image_url'),request.json.get('password'),token,salt])
     # the result returning back will be a list of one tuple and with client id and token 
     if(type(results) == list):
-        return make_response(json.dumps(results,default=str),200)
+        return make_response(json.dumps(results[0],default=str),200)
         # if not then the str with error will show up with response code 400
     elif(type(results) == str):
-        return make_response(json.dumps(results,default=str),400)
+        if(results.startswith('Duplicate entry')):
+            return make_response(json.dumps('email already exists, please enter another email',default=str),400)
+        else:    
+            return make_response(json.dumps(results,default=str),400)
         # if something goes wrong with server error 500 will show up
     else:
         return make_response(json.dumps(results,default=str),500)
