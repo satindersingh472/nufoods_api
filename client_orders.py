@@ -26,7 +26,7 @@ def client_post():
             results = conn_exe_close('call orders_menus_post(?,?)',[order_post[0]['order_id'],menu_item])
             # after the loop finishes it will show the results as id of the order posted
         if(type(results) == list):
-            return make_response(json.dumps(results,default=str),200)
+            return make_response(json.dumps(results[0],default=str),200)
         elif(type(results) == str):
             # if error it will show the error with a code 400
             return make_response(json.dumps(results,default=str),400)
