@@ -66,7 +66,7 @@ def order_confirmed():
     # if value is false then 0 is sent to the database
     if(request.args['is_confirmed'] in ['true','True']):
         data = 1
-    elif(request.args['is_confirmed'] in ['False' or 'false']):
+    elif(request.args['is_confirmed'] in ['False','false']):
         data = 0
         # will send the request with valid header and is_confirmed value
     results = conn_exe_close('call order_confirmed(?,?)',[request.headers['token'],data])
