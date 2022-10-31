@@ -17,7 +17,7 @@ def restaurant_login():
     token = uuid4().hex
     # will make the request to database to add a token and id to the restaurant session
     results = conn_exe_close('call restaurant_login(?,?,?)',
-    [request.json.get('email'),request.json.get('password'),token])
+    [request.json['email'],request.json['password'],token])
     # results will return the id and token if all goes fine
     # in a form of list
     if(type(results) == list and len(results) == 1):
@@ -102,12 +102,12 @@ def restaurant_post():
     salt = uuid4().hex
     # will call the procedure to send data to the database
     results = conn_exe_close('call restaurant_post(?,?,?,?,?,?,?,?,?,?,?)',
-    [request.json.get('name'),request.json.get('address'),request.json.get('phone_num'),request.json.get('bio'),
-    request.json.get('city'),request.json.get('email'),request.json.get('profile_url'),
+    [request.json['name'],request.json['address'],request.json['phone_num'],request.json['bio'],
+    request.json['city'],request.json['email'],request.json.get('profile_url'),
     request.json.get('banner_url'),request.json.get('password'),token,salt])
-    if(type(results) == list):
+    if(type(results) == list and len(results) >= 1):
         # if list is returned then data is stored and return back the id and token
-        return make_response(json.dumps(results,default=str),200)
+        return make_response(json.dumps(results[0],default=str),200)
     elif(type(results) == str):
         # if not then error will show up if there is any duplicate key or constraint failed
         return make_response(json.dumps(results,default=str),400)

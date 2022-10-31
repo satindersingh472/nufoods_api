@@ -447,7 +447,7 @@ Deletes a menu item if a valid token is sent as a header and menu_id as required
 ```
 {
     menu_id: (number)
-}
+}◊
 ```
 **Data Returned** <br>
 **On success**: "menu item deleted" <br>

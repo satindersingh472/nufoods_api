@@ -16,7 +16,7 @@ def all_menu():
         return make_response(json.dumps(results,default=str),200)
         # if no menu exists then list will be empty
     elif(type(results) == list and len(results) == 0):
-        return make_response(json.dumps('sorry no menu available',default=str),200)
+        return make_response(json.dumps('sorry no menu available',default=str),400)
     elif(type(results) == str):
         # if something goes wrong an error will display
         return make_response(json.dumps(results,default=str),400)
