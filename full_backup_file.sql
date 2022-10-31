@@ -52,7 +52,7 @@ INSERT INTO `client` VALUES
 (70,'sat','sss','ssksk','new@email.com','2022-10-28','123456','*6049AD2C2A6714FB77B022A63BB5F8906748DBBC','102ab3f9c1ad4512b8a0ca174a166831'),
 (71,'hhh','sssss','ccc','day@email.com','2022-10-28','123456','*2CC16FD01E3733D967B378FB1B0592EE2E65F27B','0521b4ddac1d43f3b719cab58c429d88'),
 (72,'cdcd','cdcdc','cdcdc','y@email.com','2022-10-28','123456','*FEA105E79E70A225D9C987A8C4BA0D2FE0FDFEBE','858f60b5c2ca4a26bd87ab8ad0a2b1b3'),
-(111,'satinder123','satinder','sandhu','satinder@email.com','2022-10-29','https://images.com','*02D5994A75FF6B72935F8CBC5B709D007F7102A8','139219c6fbc54cd3a569d47025de0daa');
+(111,'satinder321','sat','sandhu','satinder@email.com','2022-10-29','https://images.unsplash.com/photo-1664575196412-ed801e8333a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60','*4308A68CBD29F107FDBC6B25A46BA2488D3BF68A','155793409b3743bc97b9cf2674bd41ee');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `client_session` (
   UNIQUE KEY `client_session_UN` (`token`),
   KEY `client_session_FK` (`client_id`),
   CONSTRAINT `client_session_FK` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,8 @@ CREATE TABLE `client_session` (
 LOCK TABLES `client_session` WRITE;
 /*!40000 ALTER TABLE `client_session` DISABLE KEYS */;
 INSERT INTO `client_session` VALUES
-(86,'d56e891622714e95b8eca2d978d1882e',111,'2022-10-29 16:09:37');
+(86,'d56e891622714e95b8eca2d978d1882e',111,'2022-10-29 16:09:37'),
+(89,'token_satinder',111,'2022-10-30 22:42:08');
 /*!40000 ALTER TABLE `client_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +105,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `menu_FK` (`restaurant_id`),
   CONSTRAINT `menu_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +153,7 @@ CREATE TABLE `order` (
   KEY `order_FK_2` (`client_id`),
   CONSTRAINT `order_FK_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_FK_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +167,11 @@ INSERT INTO `order` VALUES
 (99,0,1,13,63,'2022-10-26 21:10:04'),
 (100,1,1,13,63,'2022-10-26 21:10:06'),
 (102,1,1,13,63,'2022-10-27 21:06:21'),
-(104,1,1,13,64,'2022-10-27 23:08:32');
+(104,1,1,13,64,'2022-10-27 23:08:32'),
+(111,0,1,13,111,'2022-10-30 01:09:28'),
+(112,0,0,13,111,'2022-10-30 01:10:07'),
+(113,1,1,13,111,'2022-10-30 01:11:06'),
+(114,0,0,23,111,'2022-10-30 17:13:54');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,7 +191,7 @@ CREATE TABLE `order_menu_item` (
   KEY `order_menu_item_FK_1` (`order_id`),
   CONSTRAINT `order_menu_item_FK` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_menu_item_FK_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +212,21 @@ INSERT INTO `order_menu_item` VALUES
 (131,100,51),
 (132,100,52),
 (133,100,53),
-(134,100,54);
+(134,100,54),
+(147,111,46),
+(148,111,46),
+(149,112,46),
+(150,112,46),
+(151,112,46),
+(152,112,46),
+(153,112,46),
+(154,113,46),
+(155,113,46),
+(156,113,46),
+(157,113,47),
+(158,113,48),
+(159,114,60),
+(160,114,63);
 /*!40000 ALTER TABLE `order_menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +253,7 @@ CREATE TABLE `restaurant` (
   UNIQUE KEY `restaurant_UN_phone` (`phone_num`),
   UNIQUE KEY `restaurant_UN_email` (`email`),
   CONSTRAINT `restaurant_phone_num_length` CHECK (octet_length(`phone_num`) >= 10 and octet_length(`phone_num`) <= 15)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +264,9 @@ LOCK TABLES `restaurant` WRITE;
 /*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
 INSERT INTO `restaurant` VALUES
 (13,'restauransss','123 fake st','123456789140','i am new jfdk','toronto','tank@email.com','https://profile.com','https://this.com','*1217D7E416D064A6358149AF36EA9380F7004B80','d8edb22033ec4e1c9d3e159d39353f7d'),
-(23,'ccs','123 original st','123456789102','ccs@email.com_two','I am ccs restaurant','edmonton','https://image.com','https://banner.com','*8258B800FC821F85DF691513E0B489AE1EE9F564','94f9f567955347fb89295fad2331dbd4');
+(23,'ccs','123 original st','123456789102','ccs@email.com_two','I am ccs restaurant','edmonton','https://image.com','https://banner.com','*8258B800FC821F85DF691513E0B489AE1EE9F564','94f9f567955347fb89295fad2331dbd4'),
+(36,'sample','123 fake st','3738483737','sample@email.com','i am bio','calgary','https://images.unsplash.com/photo-1666803685557-095168a66d79?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60','https://images.unsplash.com/photo-1666803685557-095168a66d79?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60','*DC7D9BBFF58158D9AC2C614862779A59F45F1C1C','ba4efd6b779640cbbef4db5c19a3bd67'),
+(38,'sample_two','12345 fake st','8388388383','i am bio','surrey','sample_two@email.com','https://profile.com','https://banner.com','*4A3B82A86248D065E85EAE2804D35208CD9B0C47','71f6b4c534d743d7bb4210ee9a61784d');
 /*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +286,7 @@ CREATE TABLE `restaurant_session` (
   UNIQUE KEY `restaurant_session_UN` (`token`),
   KEY `restaurant_session_FK` (`restaurant_id`),
   CONSTRAINT `restaurant_session_FK` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +299,11 @@ INSERT INTO `restaurant_session` VALUES
 (8,'5f27872f469b481bbcc4cc11f5549b6d','2022-10-22 13:54:26',13),
 (39,'token_13','2022-10-28 11:56:26',13),
 (40,'28ec2d2f80f942528da3b9743d0523f4','2022-10-28 13:21:20',13),
-(41,'769e0aa62c114cbb813cc9e7796b2eae','2022-10-28 13:22:34',23);
+(41,'769e0aa62c114cbb813cc9e7796b2eae','2022-10-28 13:22:34',23),
+(51,'0dcd86ef8cd34ae3b3e5607d6f756bd9','2022-10-30 22:48:45',38),
+(52,'963c4f5129de4a4d87405104ef4dfc6d','2022-10-30 22:50:25',38),
+(53,'cee8ad4afe1c45598121a54fc3ee2230','2022-10-30 23:04:04',38),
+(54,'68e8ed204ba9444a8ef7c6832835c36e','2022-10-30 23:05:09',38);
 /*!40000 ALTER TABLE `restaurant_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +352,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `all_clients`()
 BEGIN
 	SELECT
-	convert(c.id using utf8) as client_id,
+	c.id  as client_id,
 	convert(c.first_name using utf8) as first_name,
 	convert(c.last_name using utf8) as last_name,
 	convert (c.email using utf8) as email,
@@ -354,7 +379,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `all_menu`(id_input int unsigned)
 BEGIN
 	SELECT 
-	convert(m.id using utf8) as menu_id,
+	m.id as menu_id,
 	convert (m.name using utf8) as name,
 	convert (m.price using utf8) as price,
 	convert(m.description using utf8) as description ,
@@ -641,33 +666,6 @@ BEGIN
 	convert(m.image_url using utf8) as image_url
 	from menu m inner join restaurant_session rs on rs.restaurant_id = m.restaurant_id
 	where rs.token = token_input and m.id = id_input;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `orders_menus` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `orders_menus`(restaurant_id_input int unsigned, menu_items_input int unsigned, token_input varchar(100))
-    MODIFIES SQL DATA
-BEGIN
-	insert into `order` (restaurant_id , client_id)
-	select  restaurant_id_input,  cs.client_id 
-	from client_session cs where cs.token = token_input;
-	
-	insert into order_menu_item (order_id,menu_id)
-	select LAST_INSERT_ID(), menu_items_input;
-	
-	commit;	
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1244,7 +1242,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `specific_restaurant`(id_input int unsigned)
 BEGIN
 	select 
-	convert(r.id using utf8) as restaurant_id,
+	r.id as restaurant_id,
 	convert(r.name using utf8) as name,
 	convert(r.address using utf8) as address,
 	convert(r.phone_num using utf8) as phone_num ,
@@ -1271,4 +1269,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-29 16:58:47
+-- Dump completed on 2022-10-30 23:07:36
