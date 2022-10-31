@@ -80,7 +80,7 @@ def specific_restaurant():
         return make_response(json.dumps(invalid,default=str),400)
     results = conn_exe_close('call specific_restaurant(?)',[request.args.get('restaurant_id')])
     if(type(results) == list):
-            return make_response(json.dumps(results,default=str),200)
+            return make_response(json.dumps(results[0],default=str),200)
     elif(type(results) == str):
         return make_response(json.dumps(results,default=str),400)
     else:
