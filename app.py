@@ -126,7 +126,7 @@ def use_menu_delete():
 if(dbcreds.production_mode == True):
     print('Running in PRODUCTION MODE')
     import bjoern #type: ignore
-    bjoern.run(app,'0.0.0.0',5001)
+    bjoern.run(app,'0.0.0.0',5107)
 else:
     from flask_cors import CORS
     CORS(app)
