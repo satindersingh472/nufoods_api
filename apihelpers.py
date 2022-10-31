@@ -5,6 +5,7 @@ def verify_endpoints_info(sent_data,required_args):
         if(sent_data.get(data) == None):
             return f'The {data} argument is required'
 
+# this function will check the length of a password 
 def constraint_password(password):
     if(len(password) < 8):
         return f'length of password: {password} should be 8 or more.'
