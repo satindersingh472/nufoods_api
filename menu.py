@@ -66,7 +66,7 @@ def menu_delete():
         return make_response(json.dumps(invalid,default=str),400)
         # if menu id is sent as a data then request is performed
     results = conn_exe_close('call menu_delete(?,?)',
-    [request.json.get('menu_id'),request.headers.get('token')])
+    [request.json['menu_id'],request.headers['token']])
     # the procedure sends back the row count and if it is 1 then something is deleted
     if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('menu item deleted',default=str),200)

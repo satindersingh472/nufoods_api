@@ -42,12 +42,12 @@ def restaurant_logout():
         # if token not sent then error will be asking for token to send
         return make_response(json.dumps(invalid_header,default=str),400)
         # if token is sent then will request the database to process it further and delete the specific token from db
-    results = conn_exe_close('call restaurant_logout(?)',[request.headers.get('token')])
+    results = conn_exe_close('call restaurant_logout(?)',[request.headers['token']])
     # if tokenn exists and got deleted and then row count will be sent back in a form of a list
     # and appropriate message will be shown to the user
-    if(type(results) == list and results[0][0] == 1):
+    if(type(results) == list and results[0]['row_count'] == 1):
         return make_response(json.dumps('restaurant logout successfully',default=str),200)
-    elif(type(results) == list and results[0][0] == 0):
+    elif(type(results) == list and results[0]['row_count'] == 0):
         # if not successfull then error message will get displayed
         return make_response(json.dumps('restaurant logout not successfull or already logged out',default=str),400)
     else:
@@ -102,8 +102,8 @@ def restaurant_post():
     salt = uuid4().hex
     # will call the procedure to send data to the database
     results = conn_exe_close('call restaurant_post(?,?,?,?,?,?,?,?,?,?,?)',
-    [request.json['name'],request.json['address'],request.json['phone_num'],request.json['bio'],
-    request.json['city'],request.json['email'],request.json.get('profile_url'),
+    [request.json['name'],request.json['address'],request.json['phone_num'],
+    request.json['city'],request.json['email'],request.json['bio'],request.json.get('profile_url'),
     request.json.get('banner_url'),request.json.get('password'),token,salt])
     if(type(results) == list and len(results) >= 1):
         # if list is returned then data is stored and return back the id and token
