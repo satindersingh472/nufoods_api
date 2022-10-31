@@ -21,7 +21,7 @@ def restaurant_login():
     # results will return the id and token if all goes fine
     # in a form of list
     if(type(results) == list and len(results) == 1):
-        return make_response(json.dumps(results,default=str),200)
+        return make_response(json.dumps(results[0],default=str),200)
         # if something is wrong then error will get returned
     elif(type(results) == list and len(results) == 0):
         return make_response(json.dumps('Invalid username or password',default=str),400)
