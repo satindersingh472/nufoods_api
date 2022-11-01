@@ -1,1 +1,1 @@
- This is the foodie_api
+ This is the nufoods_api
